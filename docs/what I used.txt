@@ -1,0 +1,32 @@
+What I use:
+- HTML
+- CSS => SASS
+- Bootstrap
+- jQuery
+- PHP
+- PDO
+- MySQL
+
+Editors:
+- AptanaStusio
+- NetBeans
+- PHP Storm
+- VS code
+
+
+Simple Analysis:
+- Database structure => shop
+
+- Design {NiceScroll, Font Awesome}
+
+- application features & pages
+--- settings
+--- dashbord
+--- statistics
+--- log
+--- users
+--- comments
+
+- application techniques, tools & libraries
+
+

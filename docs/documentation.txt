@@ -1,0 +1,1 @@
+$noNavbar => if this variable isset then the page does not include navbar (the condition is in init.php)
