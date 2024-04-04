@@ -16,16 +16,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   $hashedPassword = sha1($password);
 
   // check if the user exists in the database
-  $statement = $con->prepare(
+  $stmt = $con->prepare(
     "SELECT userID, username, password 
     FROM users 
     WHERE username = ? AND password = ? AND groupID = 1
     LIMIT 1"
   );
 
-  $statement->execute(array($username, $hashedPassword));
-  $row = $statement->fetch();
-  $count = $statement->rowCount();
+  $stmt->execute(array($username, $hashedPassword));
+  $row = $stmt->fetch();
+  $count = $stmt->rowCount();
 
   // if count > 0 this means that the database contain record about this username
   if ($count > 0) {

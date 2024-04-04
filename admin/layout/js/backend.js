@@ -23,17 +23,15 @@ $(function () {
   // convert password field to text field on hover
   $('.show-pass').hover(function () {
     passField.attr('type', 'text');
-    $(this).classList.remove('fa-eye');
-    $(this).classList.add('fa-eye-slash');
+    $(this).removeClass('fa-eye').addClass('fa-eye-slash');
   }, function () {
     passField.attr('type', 'password');
-    $(this).classList.remove('fa-eye-slash');
-    $(this).classList.add('fa-eye');
+    $(this).removeClass('fa-eye-slash').addClass('fa-eye');
   });
 
 
   // confirmation message on delete button
-  $('.confirm').click(function(){
+  $('.confirm').click(function () {
     return confirm("Are you sure?");
   });
 });

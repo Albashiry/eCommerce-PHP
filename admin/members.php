@@ -43,10 +43,10 @@ if (isset($_SESSION['username'])) {
               echo "<td>$row[username]</td>";
               echo "<td>$row[email]</td>";
               echo "<td>$row[fullname]</td>";
-              echo "<td></td>";
+              echo "<td>$row[date]</td>";
               echo "<td>
-                        <a href='members.php?do=edit&userID=$row[userID]' class='btn btn-success'>Edit</a>
-                        <a href='members.php?do=delete&userID=$row[userID]' class='btn btn-danger confirm'>Delete</a>
+                        <a href='members.php?do=edit&userID=$row[userID]' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
+                        <a href='members.php?do=delete&userID=$row[userID]' class='btn btn-danger confirm'><i class='fa fa-close'></i> Delete</a>
                       </td>";
               echo '</tr>';
             }
@@ -56,11 +56,12 @@ if (isset($_SESSION['username'])) {
         </table>
       </div>
 
-      <a href="members.php?do=add" class="btn btn-primary"><i class="fa fa-plus"></i> Add New member</a>
+      <a href="members.php?do=add" class="btn btn-primary"><i class="fa fa-plus"></i> New member</a>
     </div>
 
 
-  <?php } elseif ($do == 'add') { // add members page
+  <?php }
+  elseif ($do == 'add') { // add members page
     ?>
 
     <h1 class="text-center">Add New Member</h1>
@@ -115,11 +116,13 @@ if (isset($_SESSION['username'])) {
 
     <?php
 
-  } elseif ($do == 'insert') {
+  }
+  elseif ($do == 'insert') {
+
+    echo '<h1 class="text-center">Update Member</h1>';
+    echo '<div class="container">';
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-      echo '<h1 class="text-center">Update Member</h1>';
-      echo '<div class="container">';
 
       // get the variables from the form
       $user  = $_POST['username'];
@@ -156,40 +159,54 @@ if (isset($_SESSION['username'])) {
       // check if there is no error, proceed the update operation
       if (empty($formErrors)) {
 
-        // insert user info into the database
-        $stmt = $con->prepare("INSERT INTO users (username, password, email, fullname) VALUES (:zuser, :zpass, :zmail, :zname)");
-        $stmt->execute(
-          array(
-            'zuser' => $user,
-            'zpass' => $hashPass,
-            'zmail' => $email,
-            'zname' => $name
-          )
-        ); //bind parameters and execute query
+        // check if user exists in database
+        $check = checkItem('username', 'users', $user);
+        if ($check) {
+          $theMsg = '<div class="alert alert-danger">Sorry, this user is exist</div>';
+          redirectHome($theMsg, 'back');
 
-        // echo success message
-        echo '<div class="alert alert-success">' . $stmt->rowCount() . ' record inserted</div>';
+        }
+        else {
+          // insert user info into the database
+          $stmt = $con->prepare("INSERT INTO users (username, password, email, fullname, date)
+                                 VALUES (:zuser, :zpass, :zmail, :zname, now())");
+          $stmt->execute(
+            array(
+              'zuser' => $user,
+              'zpass' => $hashPass,
+              'zmail' => $email,
+              'zname' => $name
+            )
+          ); //bind parameters and execute query
 
+          // echo success message
+          $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' record inserted</div>';
+          redirectHome($theMsg, 'back');
+        }
       }
+    }
+    else {
 
-    } else {
-      echo 'you can\'t browse this page directly!';
+      $theMsg = '<div class="alert alert-danger">Sorry, you can\'t browse this page directly!</div>';
+      redirectHome($theMsg, 'back');
+
     }
     echo '</div>';
 
 
-  } elseif ($do == 'edit') { // edit members page
+  }
+  elseif ($do == 'edit') { // edit members page
 
     // check if Get Request userID is numeric and get the integer value of it
     $userID = isset($_GET['userID']) && is_numeric($_GET['userID']) ? intval($_GET['userID']) : 0;
 
     // select all data depend on this ID
-    $statement = $con->prepare("SELECT * FROM users WHERE userID = ? LIMIT 1");
-    $statement->execute(array($userID)); // execute query
+    $stmt = $con->prepare("SELECT * FROM users WHERE userID = ? LIMIT 1");
+    $stmt->execute(array($userID)); // execute query
 
     // fetch the data 
-    $row   = $statement->fetch();
-    $count = $statement->rowCount();
+    $row   = $stmt->fetch();
+    $count = $stmt->rowCount();
 
     // if there is such ID show the form
     if ($count > 0) { ?>
@@ -247,98 +264,110 @@ if (isset($_SESSION['username'])) {
         </form>
       </div>
 
-    <?Php } else { // if there is no such ID show error message
-      echo 'There is no such id';
+    <?Php }
+    else { // if there is no such ID show error message
+      echo '<div class="container">';
+      $theMsg = '<div class="alert alert-danger">There is no such id</div>';
+      redirectHome($theMsg);
+      echo '</div>';
 
     }
-  } elseif ($do == 'update') { // update page
+  }
+  elseif ($do == 'update') { // update page
 
     echo '<h1 class="text-center">Update Member</h1>';
     echo '<div class="container">';
 
-      if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-        // get the variables from the form
-        $userID = $_POST['userID'];
-        $user   = $_POST['username'];
-        $email  = $_POST['email'];
-        $name   = $_POST['fullname'];
+      // get the variables from the form
+      $userID = $_POST['userID'];
+      $user   = $_POST['username'];
+      $email  = $_POST['email'];
+      $name   = $_POST['fullname'];
 
-        // password trick
-        $pass = empty($_POST['newPassword']) ? $pass = $_POST['oldPassword'] : $pass = sha1($_POST['newPassword']);
+      // password trick
+      $pass = empty($_POST['newPassword']) ? $pass = $_POST['oldPassword'] : $pass = sha1($_POST['newPassword']);
 
-        // validate the form
-        $formErrors = array();
-        if (strlen($user) < 4) {
-          $formErrors[] = 'username can\'t be less than <strong>4 characters</strong>';
-        }
-        if (strlen($user) > 20) {
-          $formErrors[] = 'username can\'t be more than <strong>20 characters</strong>';
-        }
-        if (empty($user)) {
-          $formErrors[] = 'username can\'t be <strong>empty</strong>';
-        }
-        if (empty($name)) {
-          $formErrors[] = 'fullname can\'t be <strong>empty</strong>';
-        }
-        if (empty($email)) {
-          $formErrors[] = 'email can\'t be <strong>empty</strong>';
-        }
-        foreach ($formErrors as $error) {
-          echo '<div class="alert alert-danger">' . $error . '</div>';
-        }
-
-        // check if there is no error, proceed the update operation
-        if (empty($formErrors)) {
-
-          // update the database with this info
-          $stmt = $con->prepare("UPDATE users SET username=?, email=?, fullname=?, password=? WHERE userID=?");
-          $stmt->execute(array($user, $email, $name, $pass, $userID));
-
-          // echo success message
-          echo '<div class="alert alert-success">' . $stmt->rowCount() . ' record updated</div>';
-
-        }
-
-      } else {
-        echo 'you can\'t browse this page directly!';
+      // validate the form
+      $formErrors = array();
+      if (strlen($user) < 4) {
+        $formErrors[] = 'username can\'t be less than <strong>4 characters</strong>';
       }
+      if (strlen($user) > 20) {
+        $formErrors[] = 'username can\'t be more than <strong>20 characters</strong>';
+      }
+      if (empty($user)) {
+        $formErrors[] = 'username can\'t be <strong>empty</strong>';
+      }
+      if (empty($name)) {
+        $formErrors[] = 'fullname can\'t be <strong>empty</strong>';
+      }
+      if (empty($email)) {
+        $formErrors[] = 'email can\'t be <strong>empty</strong>';
+      }
+      foreach ($formErrors as $error) {
+        echo '<div class="alert alert-danger">' . $error . '</div>';
+      }
+
+      // check if there is no error, proceed the update operation
+      if (empty($formErrors)) {
+
+        // update the database with this info
+        $stmt = $con->prepare("UPDATE users SET username=?, email=?, fullname=?, password=? WHERE userID=?");
+        $stmt->execute(array($user, $email, $name, $pass, $userID));
+
+        // echo success message
+        $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' record updated</div>';
+        redirectHome($theMsg, 'back');
+
+      }
+
+    }
+    else {
+      $theMsg = '<div class="alert alert-danger">Sorry, you can\'t browse this page directly!</div>';
+      redirectHome($theMsg);
+
+    }
     echo '</div>';
 
 
-  } elseif ($do == 'delete') { // delete members page
+  }
+  elseif ($do == 'delete') { // delete members page
 
     echo '<h1 class="text-center">Delete Member</h1>';
     echo '<div class="container">';
 
-      // check if Get Request userID is numeric and get the integer value of it
-      $userID = isset($_GET['userID']) && is_numeric($_GET['userID']) ? intval($_GET['userID']) : 0;
+    // check if Get Request userID is numeric and get the integer value of it
+    $userID = isset($_GET['userID']) && is_numeric($_GET['userID']) ? intval($_GET['userID']) : 0;
+    
+    // check data depend on this ID
+    $check = checkItem('userID', 'users', $userID);    
 
-      // select all data depend on this ID
-      $stmt = $con->prepare("SELECT * FROM users WHERE userID = ? LIMIT 1");
-      $stmt->execute(array($userID)); // execute query
+    // if there is such ID show the form
+    if ($check > 0) {
+      $stmt = $con->prepare("DELETE FROM users WHERE userID = :zuser");
+      $stmt->bindParam(':zuser', $userID);
+      $stmt->execute();
 
-      $count = $stmt->rowCount();
+      // echo success message
+      $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' record deleted</div>';
+      redirectHome($theMsg);
 
-      // if there is such ID show the form
-      if ($count > 0) {
-        $stmt = $con->prepare("DELETE FROM users WHERE userID = :zuser");
-        $stmt->bindParam(':zuser', $userID);
-        $stmt->execute();
+    }
+    else {
+      $theMsg = '<div class="alert alert-danger">This ID is not exist</div>';
+      redirectHome($theMsg);
 
-        // echo success message
-        echo '<div class="alert alert-success">' . $stmt->rowCount() . ' record deleted</div>';
-
-      } else {
-        echo 'This ID is not exist';
-      }
+    }
     echo '</div>';
 
 
   }
 
   include "$tpl/footer.php";
-} else {
+}
+else {
   header("Location: index.php");
   exit();
 }
