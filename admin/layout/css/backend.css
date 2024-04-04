@@ -4,6 +4,18 @@ body {
   font-size: 16px;
 }
 
+.required {
+  position: relative;
+}
+
+.astrisk {
+  font-size: 30px;
+  position: absolute;
+  right: 30px;
+  top: 8px;
+  color: #D20707;
+}
+
 /* end main rules */
 /* start login form */
 .login {
@@ -30,8 +42,6 @@ body {
 /* end login form */
 
 /* start bootstrap edits */
-.navbar {}
-
 .navbar-brand {
   font-size: 1em;
 }
@@ -58,3 +68,25 @@ body {
 }
 
 /* end bootstrap edits */
+
+/* start members page */
+h1 {
+  font-size: 55px;
+  margin: 40px 0;
+  font-weight: bold;
+  color: #666;
+}
+
+.show-pass {
+  position: absolute;
+  top: 6px;
+  right: -30px;
+}
+.main-table{
+  box-shadow: 1px 1px 5px #000;
+}
+.main-table th{
+  background-color: #333;
+  color: #FFF;
+}
+/* end members page */

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
-    <a class="navbar-brand" href="#"><?= lang('HOME_ADMIN')?></a>
+    <a class="navbar-brand" href="index.php"><?= lang('HOME_ADMIN')?></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -9,7 +9,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#"><?= lang('CATEGORIES')?></a></li>
         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#"><?= lang('ITEMS')?></a></li>
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#"><?= lang('MEMBERS')?></a></li>
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="members.php"><?= lang('MEMBERS')?></a></li>
         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#"><?= lang('STATISTICS')?></a></li>
         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#"><?= lang('LOGS')?></a></li>
       </ul>

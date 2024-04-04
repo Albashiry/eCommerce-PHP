@@ -13,9 +13,9 @@ function lang($phrase) {
   'EditProfile' => 'Edit Profile',
   'Settings'    => 'Settings',
   'Logout'      => 'Logout',
-  '' => '',
-  '' => '',
-  '' => '',
+  ''            => '',
+  ''            => '',
+  ''            => '',
 
   );
   return $lang[$phrase];
