@@ -14,8 +14,13 @@ if (isset($_SESSION['username'])) {
 
   if ($do == 'manage') {// manage members page 
 
+    $query = '';
+    if (isset($_GET['page']) && $_GET['page'] == 'pending') {
+      $query = 'AND regStatus = 0';
+    }
+
     // select users except admins
-    $stmt = $con->prepare("SELECT * FROM users WHERE groupID != 1");
+    $stmt = $con->prepare("SELECT * FROM users WHERE groupID != 1 $query");
     $stmt->execute();
 
     $rows = $stmt->fetchAll();
@@ -45,9 +50,12 @@ if (isset($_SESSION['username'])) {
               echo "<td>$row[fullname]</td>";
               echo "<td>$row[date]</td>";
               echo "<td>
-                        <a href='members.php?do=edit&userID=$row[userID]' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
-                        <a href='members.php?do=delete&userID=$row[userID]' class='btn btn-danger confirm'><i class='fa fa-close'></i> Delete</a>
-                      </td>";
+                      <a href='members.php?do=edit&userID=$row[userID]' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
+                      <a href='members.php?do=delete&userID=$row[userID]' class='btn btn-danger confirm'><i class='fa fa-close'></i> Delete</a>";
+              if ($row['regStatus'] == 0) {
+                echo "<a href='members.php?do=activate&userID=$row[userID]' class='btn btn-info activate'><i class='fa fa-close'></i> Activate</a>";
+              }
+              echo "</td>";
               echo '</tr>';
             }
             ?>
@@ -160,7 +168,7 @@ if (isset($_SESSION['username'])) {
       if (empty($formErrors)) {
 
         // check if user exists in database
-        $check = checkItem('username', 'users', $user);
+        $check = checkCount('username', 'users', $user);
         if ($check) {
           $theMsg = '<div class="alert alert-danger">Sorry, this user is exist</div>';
           redirectHome($theMsg, 'back');
@@ -168,8 +176,8 @@ if (isset($_SESSION['username'])) {
         }
         else {
           // insert user info into the database
-          $stmt = $con->prepare("INSERT INTO users (username, password, email, fullname, date)
-                                 VALUES (:zuser, :zpass, :zmail, :zname, now())");
+          $stmt = $con->prepare("INSERT INTO users (username, password, email, fullname, regStatus, date)
+                                 VALUES (:zuser, :zpass, :zmail, :zname, 1, now())");
           $stmt->execute(
             array(
               'zuser' => $user,
@@ -340,9 +348,9 @@ if (isset($_SESSION['username'])) {
 
     // check if Get Request userID is numeric and get the integer value of it
     $userID = isset($_GET['userID']) && is_numeric($_GET['userID']) ? intval($_GET['userID']) : 0;
-    
+
     // check data depend on this ID
-    $check = checkItem('userID', 'users', $userID);    
+    $check = checkCount('userID', 'users', $userID);
 
     // if there is such ID show the form
     if ($check > 0) {
@@ -364,6 +372,40 @@ if (isset($_SESSION['username'])) {
 
 
   }
+  elseif ($do == 'activate') { // activate members
+
+    echo '<h1 class="text-center">Activate Member</h1>';
+    echo '<div class="container">';
+
+    // check if Get Request userID is numeric and get the integer value of it
+    $userID = isset($_GET['userID']) && is_numeric($_GET['userID']) ? intval($_GET['userID']) : 0;
+
+    // check data depend on this ID
+    $check = checkCount('userID', 'users', $userID);
+
+    // if there is such ID show the form
+    if ($check > 0) {
+      // $stmt = $con->prepare("UPDATE users SET regStatus =1 WHERE userID = :zuser");
+      // $stmt->bindParam(':zuser', $userID);
+      // $stmt->execute();
+      $stmt = $con->prepare("UPDATE users SET regStatus =1 WHERE userID = ?");
+      $stmt->execute(array($userID));
+
+      // echo success message
+      $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' record activated</div>';
+      redirectHome($theMsg, 'back', 1);
+
+    }
+    else {
+      $theMsg = '<div class="alert alert-danger">This ID is not exist</div>';
+      redirectHome($theMsg);
+
+    }
+    echo '</div>';
+
+  }
+
+
 
   include "$tpl/footer.php";
 }
