@@ -76,31 +76,64 @@ body {
   color: #FFF;
   border-radius: 10px;
 }
-.home-stats .stat a{
+
+.home-stats .stat a {
   color: #FFF;
   text-decoration: none;
 }
-.home-stats .stat a:hover{}
+
+.home-stats .stat a:hover {}
+
 .home-stats .stat span {
   display: block;
   font-size: 60px;
 }
 
-.home-stats .st-members{
+.home-stats .st-members {
   background-color: #6002ee;
 }
-.home-stats .st-pending{
+
+.home-stats .st-pending {
   background-color: #c0392b;
 }
-.home-stats .st-items{
+
+.home-stats .st-items {
   background-color: #d602ee;
 }
-.home-stats .st-comments{
+
+.home-stats .st-comments {
   background-color: #ee6002;
 }
 
 .latest {
   margin-top: 30px;
+}
+
+.latest-users {
+  margin-bottom: 0;
+}
+
+.latest li {
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.latest li:nth-child(odd) {
+  background-color: rgba(250, 5, 5, 0.2);
+}
+
+.latest li:nth-child(even) {
+  background-color: rgba(5, 5, 250, 0.2);
+}
+
+.latest-users .btn-success,
+.latest-users .btn-info {
+  padding: 3px 10px;
+}
+
+.latest-users a {
+  color: #FFF;
+  text-decoration: none;
 }
 
 /* end dashboard edits */
@@ -136,6 +169,10 @@ h1 {
 .main-table .btn {
   padding: 3px 10px;
 }
-.activate{margin-left: 5px;}
+
+.activate {
+  margin-left: 5px;
+  color: #FFF;
+}
 
 /* end members page */

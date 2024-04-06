@@ -103,3 +103,22 @@ function checkCount($column, $table, $value = "") {
   $stmt->execute(array($value));
   return $stmt->rowCount();
 }
+
+
+/* Get latest records function v1.0
+ * function to get latest items from database [users | items | commants]
+ *   $column => field to select
+ *   $table => the table to choose from
+ *   $order => the DESC ordering field
+ *   $limit => limit records to get
+ * 
+ *  returns array of results
+ * */
+function getLatest($columns, $table, $order, $limit = 5) {
+  global $con;
+
+  $stmt = $con->prepare("SELECT $columns FROM $table ORDER BY $order DESC LIMIT $limit");
+  $stmt->execute();
+  $rows = $stmt->fetchAll();
+  return $rows;
+}
