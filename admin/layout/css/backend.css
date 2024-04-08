@@ -175,4 +175,104 @@ h1 {
   color: #FFF;
 }
 
+.activate:hover {
+  color: #FFF;
+  filter: contrast(1.2);
+}
+
 /* end members page */
+/* start categories page */
+.categories .card-heading {
+  /* box-shadow: 1px 1px #d7c7c7; */
+  /* color: #959595; */
+  background: rgba(40, 190, 190, 0.5);
+  font-weight: bold;
+}
+
+.categories .card-body {
+  padding: 0;
+}
+
+.categories .option a {
+  color: #888;
+  text-decoration: none;
+}
+
+.categories .option .active {
+  color: #f00;
+}
+
+.categories .option span {
+  color: #888;
+  cursor: pointer;
+}
+
+.categories hr {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.categories .cat {
+  padding: 15px;
+  position: relative;
+  overflow: hidden;
+}
+
+.categories .cat:hover {
+  background-color: rgba(238, 238, 238, 0.5);
+}
+
+.categories .cat:hover .hidden-buttons {
+  right: 10px;
+}
+
+.categories .cat .hidden-buttons {
+  position: absolute;
+  top: 15px;
+  right: -160px;
+  transition: all 0.5s ease-in-out;
+}
+
+.categories .cat .hidden-buttons a {
+  margin-right: 5px;
+  font-size: 10px;
+}
+
+.categories .cat h3 {
+  margin: 0;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  color: #6a6a6a;
+}
+
+.categories .cat .full-view p {
+  margin: 10px 0;
+  color: #707070;
+}
+
+.categories .cat:last-of-type~hr {
+  display: none;
+}
+
+.categories .cat span {
+  color: #FFF;
+  padding: 4px 6px;
+  margin-right: 6px;
+  border-radius: 6px;
+}
+
+.categories .cat .visibility {
+  background-color: #c0392b;
+}
+
+.categories .cat .commenting {
+  background-color: #2c3e50;
+}
+
+.categories .cat .advertises {
+  background-color: #6002ee;
+  ;
+}
+
+/* end categories page */

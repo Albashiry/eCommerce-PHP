@@ -34,4 +34,20 @@ $(function () {
   $('.confirm').click(function () {
     return confirm("Are you sure?");
   });
+
+
+  // category view option
+  $('.cat h3').click(function () {
+    $(this).next('.full-view').slideToggle();
+  });
+
+  $('.option span').click(function () {
+    $(this).addClass('active').siblings('span').removeClass('active');
+    if($(this).data('view') == 'full'){
+      $('.cat .full-view').fadeIn();
+    }
+    else{
+      $('.cat .full-view').fadeOut();
+    }
+  });
 });

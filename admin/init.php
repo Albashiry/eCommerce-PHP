@@ -12,6 +12,7 @@ $js = 'layout/js/'; // js directory
 //include the important files
 include "$lang/English.php"; // language phrases
 include "$func/functions.php"; // language phrases
+
 include "$tpl/header.php"; //header of the page
 
 // include navbar on all pages except the one with noNavbar variable

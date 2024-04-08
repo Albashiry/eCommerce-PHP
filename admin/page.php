@@ -1,23 +1,49 @@
 <?php
-// Categories => [Manage | Edit | Update | Add | Insert | Delete | Statistics]
+/* =======================================================
+ * == Template Page
+ * =======================================================
+ * */
 
-// split page with Get request
-$do = isset($_GET['do']) ? $_GET['do'] : 'manage';
+ob_start(); // output buffering start
+session_start();
+$pageTitle = '';
 
-// if the page is main page
-if ($do == 'manage') {
+if (isset($_SESSION['username'])) {
+  include 'init.php';
 
-  echo 'you are in manage category page <br/>';
-  echo '<a href="page.php?do=add">Add New Category +</a>';
+  // split page with Get request
+  $do = isset($_GET['do']) ? $_GET['do'] : 'manage';
 
-} elseif ($do == 'add') {
+  // if the page is main page
+  if ($do == 'manage') {
+    echo 'manage';
 
-  echo 'you are in add category page<br/>';
+  }
+  elseif ($do == 'add') {
+    echo 'add';
 
-} elseif ($do == 'insert') {
+  }
+  elseif ($do == 'insert') {
 
-  echo 'you are in insert category page<br/>';
+  }
+  elseif ($do == 'edit') {
 
-} else {
-  echo 'Error! there is no page with this name';
+  }
+  elseif ($do == 'update') {
+
+  }
+  elseif ($do == 'delete') {
+
+  }
+  elseif ($do == 'activate') {
+
+  }
+
+  include "$tpl/footer.php";
+
 }
+else {
+  header('Location: index.php');
+  exit();
+}
+ob_end_flush();

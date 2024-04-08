@@ -1,4 +1,5 @@
 <?php
+ob_start();//output buffering => no output is sent from the script (other than headers), instead the output is stored in an internal buffer
 session_start();
 if (isset($_SESSION['username'])) {
 
@@ -95,3 +96,4 @@ else {
   header("Location: index.php");
   exit();
 }
+ob_end_flush(); // output everything in buffer

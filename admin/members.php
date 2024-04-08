@@ -3,6 +3,7 @@
 /* manage memberspage
  * you can {add | edit | delete} members from here
  * */
+ob_start(); // output buffreing start
 session_start();
 $pageTitle = 'Members';
 
@@ -170,7 +171,7 @@ if (isset($_SESSION['username'])) {
         // check if user exists in database
         $check = checkCount('username', 'users', $user);
         if ($check) {
-          $theMsg = '<div class="alert alert-danger">Sorry, this user is exist</div>';
+          $theMsg = '<div class="alert alert-danger">Sorry, this user is exists</div>';
           redirectHome($theMsg, 'back');
 
         }
@@ -223,7 +224,7 @@ if (isset($_SESSION['username'])) {
       <div class="container">
         <form class="form-horizontal" action="members.php?do=update" method="post">
           <input type="hidden" name="userID" value="<?= $userID ?>">
-          <!-- send userID to seelct it in database when update -->
+          <!-- send userID to select it in database when update -->
 
           <!-- start username field -->
           <div class="mb-3 row">
@@ -413,3 +414,4 @@ else {
   header("Location: index.php");
   exit();
 }
+ob_end_flush();
