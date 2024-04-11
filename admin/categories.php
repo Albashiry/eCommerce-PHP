@@ -161,11 +161,10 @@ if (isset($_SESSION['username'])) {
     <?php
   }
   elseif ($do == 'insert') {
-
-    echo '<h1 class="text-center">Update Category</h1>';
-    echo '<div class="container">';
-
+    
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      echo '<h1 class="text-center">Update Category</h1>';
+      echo '<div class="container">';
 
       // get the variables from the form
       $name    = $_POST['name'];
@@ -204,10 +203,9 @@ if (isset($_SESSION['username'])) {
       }
     }
     else {
-
+      echo '<div class="container">';
       $theMsg = '<div class="alert alert-danger">Sorry, you can\'t browse this page directly!</div>';
       redirectHome($theMsg, 'back');
-
     }
     echo '</div>';
 

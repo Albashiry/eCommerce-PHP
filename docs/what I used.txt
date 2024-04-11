@@ -6,6 +6,8 @@ What I use:
 - PHP
 - PDO
 - MySQL
+- SelectBoxIt blugin
+- jQueryUI
 
 Editors:
 - AptanaStusio

@@ -63,14 +63,14 @@ function redirectHome($theMsg, $url = null, $seconds = 3) {
  *   $from => the table to select from [example: users, items, categories]
  *   $value => the value of select [example: Betho, box, electronics]
  * */
-function checkItem($column, $table, $value) {
-  global $con;
+// function checkItem($column, $table, $value) {
+//   global $con;
 
-  $statement = $con->prepare("SELECT $column From $table WHERE $column = ?");
-  $statement->execute(array($value));
-  $count = $statement->rowCount();
-  return $count;
-}
+//   $statement = $con->prepare("SELECT $column From $table WHERE $column = ?");
+//   $statement->execute(array($value));
+//   $count = $statement->rowCount();
+//   return $count;
+// }
 
 
 
@@ -79,29 +79,29 @@ function checkItem($column, $table, $value) {
  * $item => the item to count
  *    $table => the table to choose from
  * */
-function countItems($item, $table) {
-  global $con;
-  $stmt = $con->prepare("SELECT COUNT($item) FROM $table");
-  $stmt->execute();
-  return $stmt->fetchColumn();
-}
+// function countItems($item, $table) {
+//   global $con;
+//   $stmt = $con->prepare("SELECT COUNT($item) FROM $table");
+//   $stmt->execute();
+//   return $stmt->fetchColumn();
+// }
 
 
 /* checkItem($column, $table, $value) + countItems($item, $table) */
 function checkCount($column, $table, $value = "") {
   global $con;
 
-  $condidtion = "";
   if ($value == "") {
-    $condidtion = "";
+    $stmt = $con->prepare("SELECT COUNT($column) FROM $table");
+    $stmt->execute();
+    return $stmt->fetchColumn();
   }
   else {
-    $condidtion = "WHERE $column = ?";
+    $statement = $con->prepare("SELECT $column From $table WHERE $column = ?");
+    $statement->execute(array($value));
+    $count = $statement->rowCount();
+    return $count;
   }
-
-  $stmt = $con->prepare("SELECT $column FROM $table $condidtion");
-  $stmt->execute(array($value));
-  return $stmt->rowCount();
 }
 
 

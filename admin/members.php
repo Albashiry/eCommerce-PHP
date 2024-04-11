@@ -128,10 +128,9 @@ if (isset($_SESSION['username'])) {
   }
   elseif ($do == 'insert') {
 
-    echo '<h1 class="text-center">Update Member</h1>';
-    echo '<div class="container">';
-
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      echo '<h1 class="text-center">Insert Member</h1>';
+      echo '<div class="container">';
 
       // get the variables from the form
       $user  = $_POST['username'];
@@ -195,10 +194,9 @@ if (isset($_SESSION['username'])) {
       }
     }
     else {
-
+      echo '<div class="container">';
       $theMsg = '<div class="alert alert-danger">Sorry, you can\'t browse this page directly!</div>';
-      redirectHome($theMsg, 'back');
-
+      redirectHome($theMsg);
     }
     echo '</div>';
 

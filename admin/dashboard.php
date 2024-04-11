@@ -19,7 +19,7 @@ if (isset($_SESSION['username'])) {
           <div class="stat st-members">
             Total Members
             <span><a href="members.php">
-                <?= countItems('userID', 'users') ?>
+                <?= checkCount('userID', 'users') ?>
               </a></span>
           </div>
         </div>
@@ -32,7 +32,9 @@ if (isset($_SESSION['username'])) {
         </div>
         <div class="col-md-3">
           <div class="stat st-items">Total Items
-            <span>2000</span>
+            <span><a href="items.php">
+                <?= checkCount('itemID', 'items') ?>
+              </a></span>
           </div>
         </div>
         <div class="col-md-3">
@@ -43,6 +45,7 @@ if (isset($_SESSION['username'])) {
       </div>
     </div>
   </div>
+  
   <div class="latest">
     <div class="container">
       <div class="row">

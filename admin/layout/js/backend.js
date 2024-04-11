@@ -1,6 +1,16 @@
 $(function () {
   'use strict';
 
+  // trigger the selectboxit
+  $("select").selectBoxIt({
+    autoWidth: false
+  });
+  // hide the first empty option
+  $("select").click(function () {
+    $(this).find('option:first').hide();
+  });
+
+
   // hide placeholder on form focus
   $('[placeholder]').focus(function () {
     $(this).attr('data-text', $(this).attr('placeholder'));
@@ -43,10 +53,10 @@ $(function () {
 
   $('.option span').click(function () {
     $(this).addClass('active').siblings('span').removeClass('active');
-    if($(this).data('view') == 'full'){
+    if ($(this).data('view') == 'full') {
       $('.cat .full-view').fadeIn();
     }
-    else{
+    else {
       $('.cat .full-view').fadeOut();
     }
   });
