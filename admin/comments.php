@@ -18,7 +18,8 @@ if (isset($_SESSION['username'])) {
     $stmt = $con->prepare("SELECT comments.*, items.name AS item_name, users.username AS member
                            FROM comments
                            INNER JOIN items ON items.itemID = comments.itemID
-                           INNER JOIN users ON users.userID = comments.userID");
+                           INNER JOIN users ON users.userID = comments.userID
+                           ORDER BY comID DESC");
     $stmt->execute();
 
     $comments = $stmt->fetchAll();

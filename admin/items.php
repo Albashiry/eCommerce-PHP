@@ -21,7 +21,7 @@ if (isset($_SESSION['username'])) {
                            FROM items
                            INNER JOIN categories ON categories.catID = items.catID
                            INNER JOIN users      ON users.userID = items.memberID
-                           ORDER BY items.itemID ASC");
+                           ORDER BY itemID DESC");
     $stmt->execute();
 
     $items = $stmt->fetchAll();

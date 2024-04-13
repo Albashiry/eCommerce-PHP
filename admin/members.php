@@ -21,7 +21,7 @@ if (isset($_SESSION['username'])) {
     }
 
     // select users except admins
-    $stmt = $con->prepare("SELECT * FROM users WHERE groupID != 1 $query");
+    $stmt = $con->prepare("SELECT * FROM users WHERE groupID != 1 $query ORDER BY userID DESC");
     $stmt->execute();
 
     $users = $stmt->fetchAll();
@@ -65,7 +65,8 @@ if (isset($_SESSION['username'])) {
             <tfoot></tfoot>
           </table>
         </div>
-      <?php } else{
+      <?php }
+      else {
         echo '<div class="alert alert-info">There is no member to show</div>';
       } ?>
       <a href="members.php?do=add" class="btn btn-primary"><i class="fa fa-plus"></i> New member</a>
@@ -323,14 +324,23 @@ if (isset($_SESSION['username'])) {
       // check if there is no error, proceed the update operation
       if (empty($formErrors)) {
 
-        // update the database with this info
-        $stmt = $con->prepare("UPDATE users SET username=?, email=?, fullname=?, password=? WHERE userID=?");
-        $stmt->execute(array($user, $email, $name, $pass, $userID));
+        $stmt2 = $con->prepare("SELECT * FROM users WHERE username = ? AND userID != ?");
+        $stmt2->execute(array($user, $userID));
+        $count = $stmt2->rowCount();
 
-        // echo success message
-        $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' record updated</div>';
-        redirectHome($theMsg, 'back');
+        if ($count) {
+          $theMsg = '<div class="alert alert-danger">Sorry, this user is exists</div>';
+          redirectHome($theMsg, 'back', 2);
+        }
+        else {
+          // update the database with this info
+          $stmt = $con->prepare("UPDATE users SET username=?, email=?, fullname=?, password=? WHERE userID=?");
+          $stmt->execute(array($user, $email, $name, $pass, $userID));
 
+          // echo success message
+          $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' record updated</div>';
+          redirectHome($theMsg, 'back');
+        }
       }
 
     }

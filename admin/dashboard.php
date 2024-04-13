@@ -12,6 +12,8 @@ if (isset($_SESSION['username'])) {
 
   $itemsNumber = 5; // specify number of lateset items to show in the card
   $latestItems = getLatest("*", 'items', 'itemID', $itemsNumber); // get latest users' array
+
+  $commentsNumber = 4; // number of comments
   ?>
   <!-- // start dashboard page -->
   <div class="home-stats">
@@ -119,7 +121,7 @@ if (isset($_SESSION['username'])) {
           <div class="card card-default">
             <div class="card-header d-flex justify-content-between align-items-center">
               <div>
-                <i class="fa fa-tag"></i> Latest items
+                <i class="fa fa-tag"></i> Latest <?= $itemsNumber ?> items
 
               </div>
               <span class="toggle-info">
@@ -160,7 +162,7 @@ if (isset($_SESSION['username'])) {
           <div class="card card-default">
             <div class="card-header d-flex justify-content-between align-items-center">
               <div>
-                <i class="fa fa-commenting"></i> Latest Comments
+                <i class="fa fa-commenting"></i> Latest <?= $commentsNumber ?> Comments
               </div>
               <span class="toggle-info">
                 <i class="fa fa-minus fa-lg"></i>
@@ -170,7 +172,9 @@ if (isset($_SESSION['username'])) {
               <?php
               $stmt = $con->prepare("SELECT comments.*, users.username AS member
                                      FROM comments
-                                     INNER JOIN users ON users.userID = comments.userID");
+                                     INNER JOIN users ON users.userID = comments.userID
+                                     ORDER BY comID DESC
+                                     LIMIT $commentsNumber");
               $stmt->execute();
               $comments = $stmt->fetchAll();
               if (!empty($comments)) {
