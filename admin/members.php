@@ -1,6 +1,6 @@
 <?php
 
-/* manage memberspage
+/* manage members page
  * you can {add | edit | delete} members from here
  * */
 ob_start(); // output buffreing start
@@ -24,47 +24,50 @@ if (isset($_SESSION['username'])) {
     $stmt = $con->prepare("SELECT * FROM users WHERE groupID != 1 $query");
     $stmt->execute();
 
-    $rows = $stmt->fetchAll();
+    $users = $stmt->fetchAll();
 
     ?>
 
     <h1 class="text-center">Manage Members</h1>
     <div class="container">
-      <div class="table-responsive text-center">
-        <table class="main-table table table-bordered">
-          <thead></thead>
-          <tbody>
-            <tr>
-              <th>#ID</th>
-              <th>Username</th>
-              <th>Email</th>
-              <th>Fullname</th>
-              <th>Registered Date</th>
-              <th>Control</th>
-            </tr>
-            <?php
-            foreach ($rows as $row) {
-              echo '<tr>';
-              echo "<td>$row[userID]</td>";
-              echo "<td>$row[username]</td>";
-              echo "<td>$row[email]</td>";
-              echo "<td>$row[fullname]</td>";
-              echo "<td>$row[date]</td>";
-              echo "<td>
-                      <a href='members.php?do=edit&userID=$row[userID]' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
-                      <a href='members.php?do=delete&userID=$row[userID]' class='btn btn-danger confirm'><i class='fa fa-close'></i> Delete</a>";
-              if ($row['regStatus'] == 0) {
-                echo "<a href='members.php?do=activate&userID=$row[userID]' class='btn btn-info activate'><i class='fa fa-check'></i> Activate</a>";
+      <?php if (!empty($users)) { ?>
+        <div class="table-responsive text-center">
+          <table class="main-table table table-bordered">
+            <thead></thead>
+            <tbody>
+              <tr>
+                <th>#ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Fullname</th>
+                <th>Registered Date</th>
+                <th>Control</th>
+              </tr>
+              <?php
+              foreach ($users as $user) {
+                echo '<tr>';
+                echo "<td>$user[userID]</td>";
+                echo "<td>$user[username]</td>";
+                echo "<td>$user[email]</td>";
+                echo "<td>$user[fullname]</td>";
+                echo "<td>$user[date]</td>";
+                echo "<td>
+                      <a href='members.php?do=edit&userID=$user[userID]' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
+                      <a href='members.php?do=delete&userID=$user[userID]' class='btn btn-danger confirm'><i class='fa fa-close'></i> Delete</a>";
+                if ($user['regStatus'] == 0) {
+                  echo "<a href='members.php?do=activate&userID=$user[userID]' class='btn btn-info activate'><i class='fa fa-check'></i> Activate</a>";
+                }
+                echo "</td>";
+                echo '</tr>';
               }
-              echo "</td>";
-              echo '</tr>';
-            }
-            ?>
-          </tbody>
-          <tfoot></tfoot>
-        </table>
-      </div>
-
+              ?>
+            </tbody>
+            <tfoot></tfoot>
+          </table>
+        </div>
+      <?php } else{
+        echo '<div class="alert alert-info">There is no member to show</div>';
+      } ?>
       <a href="members.php?do=add" class="btn btn-primary"><i class="fa fa-plus"></i> New member</a>
     </div>
 
@@ -359,7 +362,7 @@ if (isset($_SESSION['username'])) {
 
       // echo success message
       $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' record deleted</div>';
-      redirectHome($theMsg);
+      redirectHome($theMsg, 'back', 1);
 
     }
     else {

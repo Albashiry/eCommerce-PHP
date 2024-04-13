@@ -77,10 +77,11 @@ body {
   border-radius: 10px;
 }
 
-.home-stats .stat i{
+.home-stats .stat i {
   font-size: 80px;
 }
-.home-stats .stat .info{}
+
+.home-stats .stat .info {}
 
 .home-stats .stat a {
   color: #FFF;
@@ -113,14 +114,18 @@ body {
 .latest {
   margin-top: 30px;
 }
-
-.latest .toggle-info{
+.latest .card{
+  margin-bottom: 5px;
+}
+.latest .toggle-info {
   color: #888;
   cursor: pointer;
 }
-.latest .toggle-info:hover{
+
+.latest .toggle-info:hover {
   color: #444;
 }
+
 .latest-users {
   margin-bottom: 0;
 }
@@ -146,6 +151,34 @@ body {
 .latest-users a {
   color: #FFF;
   text-decoration: none;
+}
+
+.latest .comment-box {
+  padding: 5px;
+}
+
+.latest .comment-box .member-name {
+  width: 13%;
+}
+
+.latest .comment-box .member-comment {
+  width: 87%;
+  background-color: #EFEF00;
+  position: relative;
+  padding: 10px;
+}
+
+.latest .comment-box .member-comment::before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: -30px;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent #EFEF00 transparent transparent;
+  border-width: 15px;
 }
 
 /* end dashboard edits */
@@ -178,8 +211,9 @@ h1 {
   vertical-align: middle !important;
 }
 
-.main-table .btn {
+.main-table .btn, .member-comment .btn {
   padding: 3px 10px;
+  margin: 5px 0 0 5px;
 }
 
 .activate {

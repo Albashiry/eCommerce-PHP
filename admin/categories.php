@@ -26,45 +26,61 @@ if (isset($_SESSION['username'])) {
 
     <h1 class="text-center">Manage Categories</h1>
     <div class="container categories">
-      <div class="card card-default mb-2">
-        <div class="card-heading p-2 d-flex justify-content-between">
-          <div><i class="fa fa-edit"></i> Manage Categories</div>
-          <div class="option">
-            <i class="fa fa-sort"></i> Ordering: [
-            <a class="<?php if ($sort == 'ASC') echo 'active' ?>" href="categories.php?sort=ASC">ASC</a> |
-            <a class="<?php if ($sort == 'DESC') echo 'active' ?>" href="categories.php?sort=DESC">DESC</a> ]
-          </div>
-          <div class="option"><i class="fa fa-eye"></i> View: [
-            <span class="active" data-view="full">Full</span> |
-            <span data-view="classic">Classic</span> ]
-          </div>
-        </div>
-        <div class="card-body">
-          <?php
-          foreach ($cats as $cat) {
-            echo '<div class="cat">';
-              echo '<div class="hidden-buttons">';
+      <?php if (!empty($cats)) { ?>
+        <div class="card card-default mb-2">
+          <div class="card-heading p-2 d-flex justify-content-between">
+            <div><i class="fa fa-edit"></i> Manage Categories</div>
+            <div class="option">
+              <i class="fa fa-sort"></i> Ordering: [
+              <a class="<?php if ($sort == 'ASC')
+                echo 'active' ?>" href="categories.php?sort=ASC">ASC</a> |
+                <a class="<?php if ($sort == 'DESC')
+                echo 'active' ?>" href="categories.php?sort=DESC">DESC</a> ]
+              </div>
+              <div class="option"><i class="fa fa-eye"></i> View: [
+                <span class="active" data-view="full">Full</span> |
+                <span data-view="classic">Classic</span> ]
+              </div>
+            </div>
+            <div class="card-body">
+              <?php
+              foreach ($cats as $cat) {
+                echo '<div class="cat">';
+                echo '<div class="hidden-buttons">';
                 echo '<a href="categories.php?do=edit&catID=' . $cat['catID'] . '" class="btn btn-xs btn-primary"><i class="fa fa-edit"> Edit</i></a>';
                 echo '<a href="categories.php?do=delete&catID=' . $cat['catID'] . '" class="confirm btn btn-xs btn-danger"><i class="fa fa-close"> Delete</i></a>';
-              echo '</div>';
-              echo "<h3>$cat[name]</h3>";
-              echo '<div class="full-view">';
+                echo '</div>';
+                echo "<h3>$cat[name]</h3>";
+                echo '<div class="full-view">';
                 echo "<p>";
-                  if ($cat['description'] == '') {echo 'This category has no description'; } 
-                  else { echo $cat['description']; }
+                if ($cat['description'] == '') {
+                  echo 'This category has no description';
+                }
+                else {
+                  echo $cat['description'];
+                }
                 echo "</p>";
-                if ($cat['visibility'] == 1) { echo "<span class='visibility'><i class='fa fa-eye-slash'></i> Hidden</span>"; }
-                if ($cat['allow_comment'] == 1) { echo "<span class='commenting'><i class='fa fa-comment-slash'></i> Comment Disabled</span>";}
-                if ($cat['allow_ads'] == 1) {echo "<span class='advertises'><i class='fa fa-rectangle-ad'></i> Ads Disabled</span>";}
-              echo '</div>';
-            echo '</div>';
-            echo '<hr/>';
-          }
-          ?>
+                if ($cat['visibility'] == 1) {
+                  echo "<span class='visibility'><i class='fa fa-eye-slash'></i> Hidden</span>";
+                }
+                if ($cat['allow_comment'] == 1) {
+                  echo "<span class='commenting'><i class='fa fa-comment-slash'></i> Comment Disabled</span>";
+                }
+                if ($cat['allow_ads'] == 1) {
+                  echo "<span class='advertises'><i class='fa fa-rectangle-ad'></i> Ads Disabled</span>";
+                }
+                echo '</div>';
+                echo '</div>';
+                echo '<hr/>';
+              }
+              ?>
+          </div>
         </div>
-      </div>
-      <a class="add-category btn btn-primary mb-3" href="categories.php?do=add"><i class="fa fa-plus"></i> Add New
-        Category
+      <?php }
+      else {
+        echo '<div class="alert alert-info">There is no category to show</div>';
+      } ?>
+      <a class="add-category btn btn-primary mb-3" href="categories.php?do=add"><i class="fa fa-plus"></i> New Category
       </a>
     </div>
 
@@ -161,7 +177,7 @@ if (isset($_SESSION['username'])) {
     <?php
   }
   elseif ($do == 'insert') {
-    
+
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       echo '<h1 class="text-center">Update Category</h1>';
       echo '<div class="container">';

@@ -105,19 +105,26 @@ function checkCount($column, $table, $value = "") {
 }
 
 
-/* Get latest records function v1.0
+/* Get latest records function v2.0
  * function to get latest items from database [users | items | commants]
  *   $column => field to select
  *   $table => the table to choose from
  *   $order => the DESC ordering field
  *   $limit => limit records to get
  * 
+ *   $admin => a value to exclude admin from showing in dashboard
+ * 
  *  returns array of results
  * */
-function getLatest($columns, $table, $order, $limit = 5) {
+function getLatest($columns, $table, $order, $limit = 5, $admin = null) {
   global $con;
+  $query = "SELECT $columns FROM $table ORDER BY $order DESC LIMIT $limit";
+  
+  if ($admin !== null) {
+    $query = "SELECT $columns FROM $table WHERE groupID != $admin ORDER BY $order DESC LIMIT $limit";
+  }
 
-  $stmt = $con->prepare("SELECT $columns FROM $table ORDER BY $order DESC LIMIT $limit");
+  $stmt = $con->prepare($query);
   $stmt->execute();
   $rows = $stmt->fetchAll();
   return $rows;

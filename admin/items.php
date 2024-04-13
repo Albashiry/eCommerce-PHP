@@ -17,7 +17,6 @@ if (isset($_SESSION['username'])) {
   // if the page is main page
   if ($do == 'manage') {
 
-    // select users except admins
     $stmt = $con->prepare("SELECT items.*, categories.name AS catName, users.username 
                            FROM items
                            INNER JOIN categories ON categories.catID = items.catID
@@ -31,6 +30,7 @@ if (isset($_SESSION['username'])) {
 
     <h1 class="text-center">Manage Items</h1>
     <div class="container">
+    <?php if (!empty($items)) { ?>
       <div class="table-responsive text-center">
         <table class="main-table table table-bordered">
           <thead></thead>
@@ -69,7 +69,9 @@ if (isset($_SESSION['username'])) {
           <tfoot></tfoot>
         </table>
       </div>
-
+<?php } else{
+        echo '<div class="alert alert-info">There is no item to show</div>';
+      } ?>
       <a href="items.php?do=add" class="btn btn-primary"><i class="fa fa-plus"></i> New item</a>
     </div>
 
@@ -386,6 +388,57 @@ if (isset($_SESSION['username'])) {
           </div>
           <!-- end submit field -->
         </form>
+
+        <?php
+        // show item comments
+        $stmt = $con->prepare("SELECT comments.*, users.username AS member
+        FROM comments
+        INNER JOIN users ON users.userID = comments.userID
+        WHERE itemID = ?");
+        $stmt->execute(array($itemID));
+
+        $rows = $stmt->fetchAll();
+
+        if (!empty($rows)) {
+          ?>
+
+          <h1 class="text-center">Manage [
+            <?= $item['name'] ?>] Comments
+          </h1>
+
+          <div class="table-responsive text-center">
+            <table class="main-table table table-bordered">
+              <thead></thead>
+              <tbody>
+                <tr>
+                  <th>Comment</th>
+                  <th>User Name</th>
+                  <th>Added Date</th>
+                  <th>Control</th>
+                </tr>
+                <?php
+                foreach ($rows as $row) {
+                  echo '<tr>';
+                  echo "<td>$row[comment]</td>";
+                  echo "<td>$row[member]</td>";
+                  echo "<td>$row[comment_date]</td>";
+                  echo "<td>
+                      <a href='comments.php?do=edit&comID=$row[comID]' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
+                      <a href='comments.php?do=delete&comID=$row[comID]' class='btn btn-danger confirm'><i class='fa fa-close'></i> Delete</a>";
+                  if ($row['status'] == 0) {
+                    echo "<a href='comments.php?do=approve&comID=$row[comID]' class='btn btn-info activate'>
+                        <i class='fa fa-check'></i> Approve
+                      </a>";
+                  }
+                  echo "</td>";
+                  echo '</tr>';
+                }
+                ?>
+              </tbody>
+              <tfoot></tfoot>
+            </table>
+          </div>
+        <?php } ?>
       </div>
 
     <?Php }

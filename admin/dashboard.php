@@ -8,7 +8,7 @@ if (isset($_SESSION['username'])) {
   include 'init.php';
 
   $usersNumber = 5; // specify number of lateset users to show in the card
-  $latestUsers = getLatest("*", 'users', 'userID', $usersNumber); // get latest users' array
+  $latestUsers = getLatest("*", 'users', 'userID', $usersNumber, 1); // get latest users' array
 
   $itemsNumber = 5; // specify number of lateset items to show in the card
   $latestItems = getLatest("*", 'items', 'itemID', $itemsNumber); // get latest users' array
@@ -64,7 +64,7 @@ if (isset($_SESSION['username'])) {
               Total Comments
               <span>
                 <a href="comments.php">
-                  0
+                  <?= checkCount('comID', 'comments') ?>
                 </a>
               </span>
             </div>
@@ -90,9 +90,10 @@ if (isset($_SESSION['username'])) {
             </div>
             <div class="card-body">
               <ul class="list-unstyled latest-users">
-                <?php foreach ($latestUsers as $user) {
-                  echo
-                    "<li class='d-flex justify-content-between'>
+                <?php if (!empty($latestUsers)) {
+                  foreach ($latestUsers as $user) {
+                    echo
+                      "<li class='d-flex justify-content-between'>
                       $user[username]
                       <div>
                       <a href='members.php?do=edit&userID=$user[userID]'>
@@ -100,10 +101,14 @@ if (isset($_SESSION['username'])) {
                           <i class='fa fa-edit'></i> Edit
                         </span>
                       </a>";
-                  if ($user['regStatus'] == 0) {
-                    echo "<a href='members.php?do=activate&userID=$user[userID]' class='btn btn-info activate'><i class='fa fa-check'></i> Activate</a>";
+                    if ($user['regStatus'] == 0) {
+                      echo "<a href='members.php?do=activate&userID=$user[userID]' class='btn btn-info activate'><i class='fa fa-check'></i> Activate</a>";
+                    }
+                    echo "</div></li>";
                   }
-                  echo "</div></li>";
+                }
+                else {
+                  echo 'There is no member to show';
                 } ?>
               </ul>
             </div>
@@ -123,9 +128,10 @@ if (isset($_SESSION['username'])) {
             </div>
             <div class="card-body">
               <ul class="list-unstyled latest-users">
-                <?php foreach ($latestItems as $item) {
-                  echo
-                    "<li class='d-flex justify-content-between'>
+                <?php if (!empty($latestItems)) {
+                  foreach ($latestItems as $item) {
+                    echo
+                      "<li class='d-flex justify-content-between'>
                       $item[name]
                       <div>
                       <a href='items.php?do=edit&itemID=$item[itemID]'>
@@ -133,16 +139,64 @@ if (isset($_SESSION['username'])) {
                           <i class='fa fa-edit'></i> Edit
                         </span>
                       </a>";
-                  if ($item['approve'] == 0) {
-                    echo "<a href='items.php?do=approve&itemID=$item[itemID]' class='btn btn-info activate'><i class='fa fa-check'></i> Approve</a>";
+                    if ($item['approve'] == 0) {
+                      echo "<a href='items.php?do=approve&itemID=$item[itemID]' class='btn btn-info activate'><i class='fa fa-check'></i> Approve</a>";
+                    }
+                    echo "</div></li>";
                   }
-                  echo "</div></li>";
+                }
+                else {
+                  echo 'There is no item to show';
                 } ?>
               </ul>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- start latest comments -->
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="card card-default">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <div>
+                <i class="fa fa-commenting"></i> Latest Comments
+              </div>
+              <span class="toggle-info">
+                <i class="fa fa-minus fa-lg"></i>
+              </span>
+            </div>
+            <div class="card-body">
+              <?php
+              $stmt = $con->prepare("SELECT comments.*, users.username AS member
+                                     FROM comments
+                                     INNER JOIN users ON users.userID = comments.userID");
+              $stmt->execute();
+              $comments = $stmt->fetchAll();
+              if (!empty($comments)) {
+                foreach ($comments as $comment) {
+                  echo "<div class='comment-box d-flex'>";
+                  echo "<span class='member-name'><a href='members.php?do=edit&userID=$comment[userID]'>$comment[member]</a></span>
+                        <div class='member-comment d-flex flex-column'>
+                          <p>$comment[comment] </p>
+                          <div>
+                            <a href='comments.php?do=edit&comID=$comment[comID]' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
+                            <a href='comments.php?do=delete&comID=$comment[comID]' class='btn btn-danger confirm'><i class='fa fa-close'></i> Delete</a>";
+                  if ($comment['status'] == 0) {
+                    echo "<a href='comments.php?do=approve&comID=$comment[comID]' class='btn btn-info activate'><i class='fa fa-check'></i> Approve</a>";
+                  }
+                  echo "</div></div></div>";
+                }
+              }
+              else {
+                echo 'There is no comment to show';
+              }
+              ?>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- start latest comments -->
     </div>
   </div>
 

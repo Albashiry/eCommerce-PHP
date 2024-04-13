@@ -13,6 +13,7 @@ $(function () {
     }
   });
   
+  
   // trigger the selectboxit
   $("select").selectBoxIt({
     autoWidth: false
