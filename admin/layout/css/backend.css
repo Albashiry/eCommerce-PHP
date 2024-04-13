@@ -77,6 +77,11 @@ body {
   border-radius: 10px;
 }
 
+.home-stats .stat i{
+  font-size: 80px;
+}
+.home-stats .stat .info{}
+
 .home-stats .stat a {
   color: #FFF;
   text-decoration: none;
@@ -109,6 +114,13 @@ body {
   margin-top: 30px;
 }
 
+.latest .toggle-info{
+  color: #888;
+  cursor: pointer;
+}
+.latest .toggle-info:hover{
+  color: #444;
+}
 .latest-users {
   margin-bottom: 0;
 }

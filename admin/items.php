@@ -21,7 +21,8 @@ if (isset($_SESSION['username'])) {
     $stmt = $con->prepare("SELECT items.*, categories.name AS catName, users.username 
                            FROM items
                            INNER JOIN categories ON categories.catID = items.catID
-                           INNER JOIN users      ON users.userID = items.memberID");
+                           INNER JOIN users      ON users.userID = items.memberID
+                           ORDER BY items.itemID ASC");
     $stmt->execute();
 
     $items = $stmt->fetchAll();
@@ -57,6 +58,9 @@ if (isset($_SESSION['username'])) {
               echo "<td>
                       <a href='items.php?do=edit&itemID=$item[itemID]' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
                       <a href='items.php?do=delete&itemID=$item[itemID]' class='btn btn-danger confirm'><i class='fa fa-close'></i> Delete</a>";
+              if ($item['approve'] == 0) {
+                echo "<a href='items.php?do=approve&itemID=$item[itemID]' class='btn btn-info activate'><i class='fa fa-check'></i> Approve</a>";
+              }
               echo "</td>";
               echo '</tr>';
             }
@@ -222,7 +226,7 @@ if (isset($_SESSION['username'])) {
       if (empty($formErrors)) {
 
         // insert user info into the database
-        $stmt = $con->prepare("INSERT INTO items (name, description, price, country_made, status, add_date, catID, memberID)
+        $stmt = $con->prepare("INSERT INTO items (name, description, price, country_made, status, add_date, memberID, catID )
                                  VALUES (:zname, :zdesc, :zprice, :zcountry, :zstatus, now(), :zmember, :zcat)");
         $stmt->execute(
           array(
@@ -489,7 +493,7 @@ if (isset($_SESSION['username'])) {
       // echo success message
       $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' record deleted</div>';
       redirectHome($theMsg, 'back');
-      
+
     }
     else {
       $theMsg = '<div class="alert alert-danger">This ID is not exist</div>';
@@ -500,6 +504,36 @@ if (isset($_SESSION['username'])) {
 
   }
   elseif ($do == 'approve') {
+
+    echo '<h1 class="text-center">Approve item</h1>';
+    echo '<div class="container">';
+
+    // check if Get Request itemID is numeric and get the integer value of it
+    $itemID = isset($_GET['itemID']) && is_numeric($_GET['itemID']) ? intval($_GET['itemID']) : 0;
+
+    // check data depend on this ID
+    $check = checkCount('itemID', 'items', $itemID);
+
+    // if there is such ID show the form
+    if ($check > 0) {
+      // $stmt = $con->prepare("UPDATE users SET regStatus =1 WHERE itemID = :zuser");
+      // $stmt->bindParam(':zuser', $itemID);
+      // $stmt->execute();
+      $stmt = $con->prepare("UPDATE items SET approve =1 WHERE itemID = ?");
+      $stmt->execute(array($itemID));
+
+      // echo success message
+      $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' record approved</div>';
+      redirectHome($theMsg, 'back', 1);
+
+    }
+    else {
+      $theMsg = '<div class="alert alert-danger">This ID is not exist</div>';
+      redirectHome($theMsg);
+
+    }
+    echo '</div>';
+
 
   }
 

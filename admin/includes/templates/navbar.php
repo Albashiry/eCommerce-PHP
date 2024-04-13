@@ -10,6 +10,7 @@
         <li class="nav-item"><a class="nav-link active" aria-current="page" href="categories.php"><?= lang('CATEGORIES')?></a></li>
         <li class="nav-item"><a class="nav-link active" aria-current="page" href="items.php"><?= lang('ITEMS')?></a></li>
         <li class="nav-item"><a class="nav-link active" aria-current="page" href="members.php"><?= lang('MEMBERS')?></a></li>
+        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#"><?= lang('COMMENTS')?></a></li>
         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#"><?= lang('STATISTICS')?></a></li>
         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#"><?= lang('LOGS')?></a></li>
       </ul>

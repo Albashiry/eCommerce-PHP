@@ -54,7 +54,7 @@ if (isset($_SESSION['username'])) {
                       <a href='members.php?do=edit&userID=$row[userID]' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
                       <a href='members.php?do=delete&userID=$row[userID]' class='btn btn-danger confirm'><i class='fa fa-close'></i> Delete</a>";
               if ($row['regStatus'] == 0) {
-                echo "<a href='members.php?do=activate&userID=$row[userID]' class='btn btn-info activate'><i class='fa fa-close'></i> Activate</a>";
+                echo "<a href='members.php?do=activate&userID=$row[userID]' class='btn btn-info activate'><i class='fa fa-check'></i> Activate</a>";
               }
               echo "</td>";
               echo '</tr>';

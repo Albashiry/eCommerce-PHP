@@ -1,6 +1,18 @@
 $(function () {
   'use strict';
 
+  // Dashboard
+  $('.toggle-info').click(function(){
+    $(this).toggleClass('selected').parent().next('.card-body').slideToggle();
+
+    if ($(this).hasClass('selected')) {
+      $(this).html('<i class="fa fa-plus fa-lg"></i>');
+    }
+    else{
+      $(this).html('<i class="fa fa-minus fa-lg"></i>');
+    }
+  });
+  
   // trigger the selectboxit
   $("select").selectBoxIt({
     autoWidth: false
