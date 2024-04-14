@@ -11,8 +11,6 @@
         <li class="nav-item"><a class="nav-link active" aria-current="page" href="items.php"><?= lang('ITEMS')?></a></li>
         <li class="nav-item"><a class="nav-link active" aria-current="page" href="members.php"><?= lang('MEMBERS')?></a></li>
         <li class="nav-item"><a class="nav-link active" aria-current="page" href="comments.php"><?= lang('COMMENTS')?></a></li>
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#"><?= lang('STATISTICS')?></a></li>
-        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#"><?= lang('LOGS')?></a></li>
       </ul>
       
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
@@ -21,6 +19,7 @@
             Salam
           </a>
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="../index.php"><?= lang('VisitShop')?></a></li>
             <li><a class="dropdown-item" href="members.php?do=edit&userID=<?= $_SESSION['id'] ?>"><?= lang('EditProfile')?></a></li>
             <li><a class="dropdown-item" href="#"><?= lang('Settings')?></a></li>
             <!-- <li><hr class="dropdown-divider"></li> -->

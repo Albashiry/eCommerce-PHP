@@ -8,13 +8,14 @@ function lang($phrase) {
   'CATEGORIES'  => 'Categories',
   'ITEMS'       => 'Items',
   'MEMBERS'     => 'Members',
-  'COMMENTS'    => 'Comments',
+  'COMMENTS'     => 'Comments',
   'STATISTICS'  => 'Statistics',
   'LOGS'        => 'Logs',
-  'VisitShop'   => 'Visit Shop',
   'EditProfile' => 'Edit Profile',
   'Settings'    => 'Settings',
   'Logout'      => 'Logout',
+  ''            => '',
+  ''            => '',
   ''            => '',
 
   );
