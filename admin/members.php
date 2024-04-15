@@ -51,12 +51,12 @@ if (isset($_SESSION['username'])) {
                 echo "<td>$user[email]</td>";
                 echo "<td>$user[fullname]</td>";
                 echo "<td>$user[date]</td>";
-                echo "<td>
-                      <a href='members.php?do=edit&userID=$user[userID]' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
-                      <a href='members.php?do=delete&userID=$user[userID]' class='btn btn-danger confirm'><i class='fa fa-close'></i> Delete</a>";
+                echo "<td class='text-end'>";
                 if ($user['regStatus'] == 0) {
                   echo "<a href='members.php?do=activate&userID=$user[userID]' class='btn btn-info activate'><i class='fa fa-check'></i> Activate</a>";
                 }
+                  echo "<a href='members.php?do=edit&userID=$user[userID]' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
+                        <a href='members.php?do=delete&userID=$user[userID]' class='btn btn-danger confirm'><i class='fa fa-close'></i> Delete</a>";
                 echo "</td>";
                 echo '</tr>';
               }

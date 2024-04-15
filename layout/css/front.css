@@ -9,10 +9,10 @@ body {
 }
 
 .astrisk {
-  font-size: 30px;
+  font-size: 20px;
   position: absolute;
-  right: 30px;
-  top: 8px;
+  right: 10px;
+  top: 7px;
   color: #D20707;
 }
 
@@ -38,7 +38,6 @@ h1 {
 }
 
 .dropdown-menu {
-  /* min-width: 12rem; */
   padding: 0;
   font-size: 1em;
   border: none;
@@ -46,20 +45,46 @@ h1 {
 }
 
 .dropdown-item:hover {
-  /* padding-left: 20px; */
   transition: all 0.3s;
   background-color: #8e44ad !important;
 }
 
 /* end bootstrap edits */
 /* start header */
-.upper-bar{
-  
+.upper-bar {
+  padding: 10px;
+  background-color: #FFF;
 }
+
 /* end header */
+/* start login page */
+.login-page form {
+  max-width: 380px;
+  margin: auto;
+}
+
+.login-page form input {
+  margin-bottom: 10px;
+}
+.login-page [data-class="login"].selected{color:#0d6efd;}
+.login-page [data-class="signup"].selected{color:#198754;}
+
+.login-page h1{
+  color: #C0C0C0;
+}
+.login-page h1 span{
+  cursor: pointer;
+}
+.login-page .signup{
+  display: none;
+}
+/* end login page */
 /* start categories page */
-.item-box{position: relative;}
-.item-box .price-tag{
+.item-box {
+  position: relative;
+}
+
+.item-box .price-tag {
   background-color: #B4B4B4;
   padding: 2px 5px;
   position: absolute;
@@ -69,4 +94,5 @@ h1 {
   color: #FFF;
   border-radius: 0 5px 5px 0;
 }
+
 /* end categories page */

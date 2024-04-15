@@ -16,9 +16,19 @@
 </head>
 
 <body>
-  <div class="apper-bar">
-    <div class="container">
-      Upper Bar
+  <div class="upper-bar">
+    <div class="container d-flex justify-content-end">
+      <?php if (isset($_SESSION['user'])) {
+        echo 'welcome ' . $_SESSION['user'];
+        if (checkUserStatus($_SESSION['user'])) {
+          // user is not active
+          echo ' Your membership need to be activated by admin';
+        }
+      }
+      else {
+        ?>
+        <a href="login.php"><span>Login/Signup</span></a>
+      <?php } ?>
     </div>
   </div>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">

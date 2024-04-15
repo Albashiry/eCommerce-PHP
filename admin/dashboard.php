@@ -97,16 +97,17 @@ if (isset($_SESSION['username'])) {
                     echo
                       "<li class='d-flex justify-content-between'>
                       $user[username]
-                      <div>
+                      <div>";
+                    if ($user['regStatus'] == 0) {
+                      echo "<a href='members.php?do=activate&userID=$user[userID]' class='btn btn-info activate'><i class='fa fa-check'></i> Activate</a>";
+                    }
+                    echo "
                       <a href='members.php?do=edit&userID=$user[userID]'>
                         <span class='btn btn-success'>
                           <i class='fa fa-edit'></i> Edit
                         </span>
-                      </a>";
-                    if ($user['regStatus'] == 0) {
-                      echo "<a href='members.php?do=activate&userID=$user[userID]' class='btn btn-info activate'><i class='fa fa-check'></i> Activate</a>";
-                    }
-                    echo "</div></li>";
+                      </a>
+                      </div></li>";
                   }
                 }
                 else {
@@ -121,7 +122,8 @@ if (isset($_SESSION['username'])) {
           <div class="card card-default">
             <div class="card-header d-flex justify-content-between align-items-center">
               <div>
-                <i class="fa fa-tag"></i> Latest <?= $itemsNumber ?> items
+                <i class="fa fa-tag"></i> Latest
+                <?= $itemsNumber ?> items
 
               </div>
               <span class="toggle-info">
@@ -135,16 +137,16 @@ if (isset($_SESSION['username'])) {
                     echo
                       "<li class='d-flex justify-content-between'>
                       $item[name]
-                      <div>
+                      <div>";
+                    if ($item['approve'] == 0) {
+                      echo "<a href='items.php?do=approve&itemID=$item[itemID]' class='btn btn-info activate'><i class='fa fa-check'></i> Approve</a>";
+                    }
+                    echo "
                       <a href='items.php?do=edit&itemID=$item[itemID]'>
                         <span class='btn btn-success'>
                           <i class='fa fa-edit'></i> Edit
                         </span>
-                      </a>";
-                    if ($item['approve'] == 0) {
-                      echo "<a href='items.php?do=approve&itemID=$item[itemID]' class='btn btn-info activate'><i class='fa fa-check'></i> Approve</a>";
-                    }
-                    echo "</div></li>";
+                      </a></div></li>";
                   }
                 }
                 else {
@@ -162,7 +164,8 @@ if (isset($_SESSION['username'])) {
           <div class="card card-default">
             <div class="card-header d-flex justify-content-between align-items-center">
               <div>
-                <i class="fa fa-commenting"></i> Latest <?= $commentsNumber ?> Comments
+                <i class="fa fa-commenting"></i> Latest
+                <?= $commentsNumber ?> Comments
               </div>
               <span class="toggle-info">
                 <i class="fa fa-minus fa-lg"></i>

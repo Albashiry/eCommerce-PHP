@@ -30,7 +30,24 @@ function getItems($catID) {
 }
 
 
+/* checkUserStatus function v1.0
+ * function to check User Status in database if is not activated
+ * check the regStatus of the user
+ * 
+ *  returns array of results
+ * */
+function checkUserStatus($user) {
+  global $con;
 
+  $stmtx = $con->prepare("SELECT username, regStatus 
+                         FROM users 
+                         WHERE username = ? AND regStatus = 0"
+  );
+
+  $stmtx->execute(array($user));
+  $status = $stmtx->rowCount();
+  return $status;
+}
 
 /* title function v1.0
  * title function that echo the page title in case the page has the variable $pageTitle

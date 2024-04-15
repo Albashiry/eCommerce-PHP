@@ -30,46 +30,47 @@ if (isset($_SESSION['username'])) {
 
     <h1 class="text-center">Manage Items</h1>
     <div class="container">
-    <?php if (!empty($items)) { ?>
-      <div class="table-responsive text-center">
-        <table class="main-table table table-bordered">
-          <thead></thead>
-          <tbody>
-            <tr>
-              <th>#ID</th>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Price</th>
-              <th>Adding Date</th>
-              <th>Category</th>
-              <th>Username</th>
-              <th>Control</th>
-            </tr>
-            <?php
-            foreach ($items as $item) {
-              echo '<tr>';
-              echo "<td>$item[itemID]</td>";
-              echo "<td>$item[name]</td>";
-              echo "<td>$item[description]</td>";
-              echo "<td>$item[price]</td>";
-              echo "<td>$item[add_date]</td>";
-              echo "<td>$item[catName]</td>";
-              echo "<td>$item[username]</td>";
-              echo "<td>
-                      <a href='items.php?do=edit&itemID=$item[itemID]' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
+      <?php if (!empty($items)) { ?>
+        <div class="table-responsive text-center">
+          <table class="main-table table table-bordered">
+            <thead></thead>
+            <tbody>
+              <tr>
+                <th>#ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Adding Date</th>
+                <th>Category</th>
+                <th>Username</th>
+                <th>Control</th>
+              </tr>
+              <?php
+              foreach ($items as $item) {
+                echo '<tr>';
+                echo "<td>$item[itemID]</td>";
+                echo "<td>$item[name]</td>";
+                echo "<td>$item[description]</td>";
+                echo "<td>$item[price]</td>";
+                echo "<td>$item[add_date]</td>";
+                echo "<td>$item[catName]</td>";
+                echo "<td>$item[username]</td>";
+                echo "<td class='text-end'>";
+                if ($item['approve'] == 0) {
+                  echo "<a href='items.php?do=approve&itemID=$item[itemID]' class='btn btn-info activate'><i class='fa fa-check'></i> Approve</a>";
+                }
+                echo "<a href='items.php?do=edit&itemID=$item[itemID]' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
                       <a href='items.php?do=delete&itemID=$item[itemID]' class='btn btn-danger confirm'><i class='fa fa-close'></i> Delete</a>";
-              if ($item['approve'] == 0) {
-                echo "<a href='items.php?do=approve&itemID=$item[itemID]' class='btn btn-info activate'><i class='fa fa-check'></i> Approve</a>";
+                echo "</td>";
+                echo '</tr>';
               }
-              echo "</td>";
-              echo '</tr>';
-            }
-            ?>
-          </tbody>
-          <tfoot></tfoot>
-        </table>
-      </div>
-<?php } else{
+              ?>
+            </tbody>
+            <tfoot></tfoot>
+          </table>
+        </div>
+      <?php }
+      else {
         echo '<div class="alert alert-info">There is no item to show</div>';
       } ?>
       <a href="items.php?do=add" class="btn btn-primary"><i class="fa fa-plus"></i> New item</a>
