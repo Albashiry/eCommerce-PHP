@@ -1,4 +1,7 @@
-<?php include 'init.php'; ?>
+<?php
+ob_start();
+include 'init.php';
+?>
 
 
 <div class="container">
@@ -7,11 +10,11 @@
   </h1>
   <div class="row">
     <?php
-    foreach (getItems($_GET['pageID']) as $item) {
+    foreach (getItems('catID', $_GET['pageID']) as $item) {
       echo "
       <div class='col-sm-6 col-md-3'>
         <div class='card item-box'>
-        <span class='price-tag'>$item[price]</span>
+          <span class='price-tag'>$item[price]</span>
           <img class='card-img-top img-thumbnail' src='avatar.png' alt='User Avatar'>
           <div class='card-body'>
             <h3>$item[name]</h3>
@@ -25,4 +28,7 @@
 </div>
 
 
-<?php include "$tpl/footer.php"; ?>
+<?php
+include "$tpl/footer.php";
+ob_end_flush();
+?>

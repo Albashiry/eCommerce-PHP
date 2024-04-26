@@ -230,7 +230,7 @@ if (isset($_SESSION['username'])) {
 
         // insert user info into the database
         $stmt = $con->prepare("INSERT INTO items (name, description, price, country_made, status, add_date, memberID, catID )
-                                 VALUES (:zname, :zdesc, :zprice, :zcountry, :zstatus, now(), :zmember, :zcat)");
+                              VALUES (:zname, :zdesc, :zprice, :zcountry, :zstatus, now(), :zmember, :zcat)");
         $stmt->execute(
           array(
             'zname'    => $name,

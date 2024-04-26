@@ -17,10 +17,15 @@
 
 <body>
   <div class="upper-bar">
-    <div class="container d-flex justify-content-end">
+    <div class="container">
       <?php if (isset($_SESSION['user'])) {
-        echo 'welcome ' . $_SESSION['user'];
-        if (checkUserStatus($_SESSION['user'])) {
+
+        echo "Welcome $sessionUser ";
+        echo "<a href='profile.php'>Profile</a>";
+        echo " - <a href='newad.php'>New Ad</a>";
+        echo " - <a href='logout.php'>Logout</a>";
+
+        if (checkUserStatus($sessionUser)) {
           // user is not active
           echo ' Your membership need to be activated by admin';
         }

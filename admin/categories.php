@@ -28,7 +28,7 @@ if (isset($_SESSION['username'])) {
     <div class="container categories">
       <?php if (!empty($cats)) { ?>
         <div class="card card-default mb-2">
-          <div class="card-heading p-2 d-flex justify-content-between">
+          <div class="card-header p-2 d-flex justify-content-between">
             <div><i class="fa fa-edit"></i> Manage Categories</div>
             <div class="option">
               <i class="fa fa-sort"></i> Ordering: [

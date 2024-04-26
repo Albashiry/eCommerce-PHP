@@ -5,7 +5,7 @@ $(function () {
   $('.login-page h1 span').click(function () {
     $(this).addClass('selected').siblings().removeClass('selected');
     $('.login-page form').hide();
-    $('.'+$(this).data('class')).fadeIn(100);
+    $('.' + $(this).data('class')).fadeIn(100);
   });
 
   // trigger the selectboxit
@@ -39,6 +39,11 @@ $(function () {
   // confirmation message on delete button
   $('.confirm').click(function () {
     return confirm("Are you sure?");
+  });
+
+
+  $('.live').keyup(function () {
+    $($(this).data('class')).text($(this).val());
   });
 
 });

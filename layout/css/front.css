@@ -16,6 +16,14 @@ body {
   color: #D20707;
 }
 
+.main-form .astrisk {
+  font-size: 30px;
+  position: absolute;
+  right: 30px;
+  top: 8px;
+  color: #D20707;
+}
+
 h1 {
   font-size: 55px;
   margin: 40px 0;
@@ -58,7 +66,8 @@ h1 {
 
 /* end header */
 /* start login page */
-.login-page form {
+.login-page form,
+.errors {
   max-width: 380px;
   margin: auto;
 }
@@ -66,18 +75,43 @@ h1 {
 .login-page form input {
   margin-bottom: 10px;
 }
-.login-page [data-class="login"].selected{color:#0d6efd;}
-.login-page [data-class="signup"].selected{color:#198754;}
 
-.login-page h1{
+.login-page [data-class="login"].selected {
+  color: #0d6efd;
+}
+
+.login-page [data-class="signup"].selected {
+  color: #198754;
+}
+
+.login-page h1 {
   color: #C0C0C0;
 }
-.login-page h1 span{
+
+.login-page h1 span {
   cursor: pointer;
 }
-.login-page .signup{
+
+.login-page .signup {
   display: none;
 }
+
+.errors .msg {
+  padding: 10px;
+  text-align: left;
+  border-left: 5px solid #cd6858;
+  border-right: 1px solid #e0e0e0;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #fff;
+  margin-bottom: 8px;
+  color: #919191;
+}
+
+.errors .error {
+  border-left: 1px solid #cd6858;
+}
+
 /* end login page */
 /* start categories page */
 .item-box {
@@ -96,3 +130,28 @@ h1 {
 }
 
 /* end categories page */
+/* start profile page */
+.information,
+.block {
+  margin-top: 20px;
+}
+
+.information ul {
+  margin: 0;
+  padding: 0;
+}
+
+.information ul li {
+  padding: 10px;
+}
+
+.information ul li:nth-child(odd) {
+  background-color: #eee;
+}
+
+.information ul li span {
+  display: inline-block;
+  width: 130px;
+}
+
+/* end profile page */

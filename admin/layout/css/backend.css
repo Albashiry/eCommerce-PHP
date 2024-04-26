@@ -228,8 +228,7 @@ h1 {
 
 /* end members page */
 /* start categories page */
-.categories .card-heading {
-  /* box-shadow: 1px 1px #d7c7c7; */
+.categories .card-header {
   /* color: #959595; */
   background: rgba(40, 190, 190, 0.5);
   font-weight: bold;

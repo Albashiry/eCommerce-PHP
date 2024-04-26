@@ -20,11 +20,11 @@ function getCat() {
  * 
  *  returns array of results
  * */
-function getItems($catID) {
+function getItems($where, $value) {
   global $con;
 
-  $getItems = $con->prepare("SELECT * FROM items WHERE catID = ? ORDER BY itemID DESC");
-  $getItems->execute(array($catID));
+  $getItems = $con->prepare("SELECT * FROM items WHERE $where = ? ORDER BY itemID DESC");
+  $getItems->execute(array($value));
   $items = $getItems->fetchAll();
   return $items;
 }
@@ -48,6 +48,38 @@ function checkUserStatus($user) {
   $status = $stmtx->rowCount();
   return $status;
 }
+
+/* check items function v2.0
+ * function to check item in database [function accepts parameters]
+ *   $column => 
+ *   $table => 
+ *   $value => 
+ * */
+/* checkItem($column, $table, $value) + countItems($item, $table) */
+function checkCount($column, $table, $value = "") {
+  global $con;
+
+  if ($value == "") {
+    $stmt = $con->prepare("SELECT COUNT($column) FROM $table");
+    $stmt->execute();
+    return $stmt->fetchColumn();
+  }
+  else {
+    $statement = $con->prepare("SELECT $column From $table WHERE $column = ?");
+    $statement->execute(array($value));
+    $count = $statement->rowCount();
+    return $count;
+  }
+}
+
+
+
+
+
+
+
+
+
 
 /* title function v1.0
  * title function that echo the page title in case the page has the variable $pageTitle
@@ -136,22 +168,7 @@ function redirectHome($theMsg, $url = null, $seconds = 3) {
 // }
 
 
-/* checkItem($column, $table, $value) + countItems($item, $table) */
-function checkCount($column, $table, $value = "") {
-  global $con;
 
-  if ($value == "") {
-    $stmt = $con->prepare("SELECT COUNT($column) FROM $table");
-    $stmt->execute();
-    return $stmt->fetchColumn();
-  }
-  else {
-    $statement = $con->prepare("SELECT $column From $table WHERE $column = ?");
-    $statement->execute(array($value));
-    $count = $statement->rowCount();
-    return $count;
-  }
-}
 
 
 /* Get latest records function v2.0
