@@ -129,6 +129,13 @@ h1 {
   border-radius: 0 5px 5px 0;
 }
 
+.item-box .date {
+  text-align: right;
+  font-size: 13px;
+  color: #eee;
+  font-weight: bold;
+}
+
 /* end categories page */
 /* start profile page */
 .information,
@@ -155,3 +162,38 @@ h1 {
 }
 
 /* end profile page */
+/* start show item page */
+.item-info h2{
+  padding: 10px;
+  margin: 0;
+}
+
+.item-info p {
+  padding: 10px;
+}
+
+.item-info ul li {
+  padding: 10px;
+}
+
+.item-info ul li:nth-child(odd) {
+  background-color: #e8e8e8;
+}
+
+.item-info ul li span {
+  display: inline-block;
+  width: 130px;
+}
+.comment h3{
+  margin: 0 0 10px;
+}
+.comment textarea{
+  display: block;
+  margin-bottom: 10px;
+  width: 500px;
+  height: 120px;
+}
+.comment input[type='button']{
+  margin-bottom: 5px;
+}
+/* end show item page */

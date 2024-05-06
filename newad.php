@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 $pageTitle = "Create new item";
 
@@ -55,8 +56,9 @@ if (isset($_SESSION['user'])) {
       ); //bind parameters and execute query
 
       // echo success message
-      echo "Item added";
-
+      if ($stmt) {
+        echo "Item added";
+      }
     }
   }
   ?>
@@ -189,4 +191,5 @@ else {
   exit();
 }
 include "$tpl/footer.php";
+ob_end_flush();
 ?>

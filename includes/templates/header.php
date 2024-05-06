@@ -50,7 +50,7 @@
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <?php
           foreach (getCat() as $cat) {
-            echo "<li class='nav-item'><a class='nav-link active' aria-current='page' href='categories.php?pageID=$cat[catID]&pageName=" . str_replace(' ', '-', $cat['name']) . "'>$cat[name]</a></li>";
+            echo "<li class='nav-item'><a class='nav-link active' aria-current='page' href='categories.php?pageID=$cat[catID]'>$cat[name]</a></li>";
           }
           ?>
 

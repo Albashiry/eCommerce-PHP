@@ -5,9 +5,7 @@ include 'init.php';
 
 
 <div class="container">
-  <h1 class="text-center">
-    <?= str_replace('-', ' ', $_GET['pageName']) ?>
-  </h1>
+  <h1 class="text-center">Show Category</h1>
   <div class="row">
     <?php
     foreach (getItems('catID', $_GET['pageID']) as $item) {
@@ -17,7 +15,7 @@ include 'init.php';
           <span class='price-tag'>$item[price]</span>
           <img class='card-img-top img-thumbnail' src='avatar.png' alt='User Avatar'>
           <div class='card-body'>
-            <h3>$item[name]</h3>
+            <h3><a href='items.php?itemID=$item[itemID]'>$item[name]</a></h3>
             <p>$item[description]</p>
           </div>
         </div>

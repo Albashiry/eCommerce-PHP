@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 $pageTitle = "Profile";
 
@@ -64,11 +65,12 @@ if (isset($_SESSION['user'])) {
               echo "
             <div class='col-sm-6 col-md-3'>
               <div class='card item-box'>
-              <span class='price-tag'>$item[price]</span>
+                <span class='price-tag'>$item[price]$</span>
                 <img class='card-img-top img-thumbnail' src='avatar.png' alt='User Avatar'>
                 <div class='card-body'>
-                  <h3>$item[name]</h3>
+                  <h3><a href='items.php?itemID=$item[itemID]'>$item[name]</a></h3>
                   <p>$item[description]</p>
+                  <div class='date'>$item[add_date]</div>
                 </div>
               </div>
             </div>";
@@ -118,4 +120,5 @@ else {
   exit();
 }
 include "$tpl/footer.php";
+ob_end_flush();
 ?>
