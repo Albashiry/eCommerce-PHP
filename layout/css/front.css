@@ -63,15 +63,18 @@ h1 {
   /* padding: 10px; */
   background-color: #FFF;
 }
-.my-info{
+
+.my-info {
   display: flex;
   align-items: center;
 }
-.my-info .avatar{
+
+.my-info .avatar {
   width: 45px;
   height: 45px;
   margin: 5px;
 }
+
 /* end header */
 /* start login page */
 .login-page form,
@@ -146,10 +149,12 @@ h1 {
   color: #FFF;
   border-radius: 0 5px 5px 0;
 }
-.item-box .caption p{
+
+.item-box .caption p {
   height: 44px;
   max-height: 44px;
 }
+
 .item-box .date {
   text-align: right;
   font-size: 13px;

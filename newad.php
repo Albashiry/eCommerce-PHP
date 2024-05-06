@@ -81,7 +81,7 @@ if (isset($_SESSION['user'])) {
                 <div class="mb-3 row">
                   <label for="name" class="col-sm-3 col-form-label form-control-lg">Name</label>
                   <div class="col-sm-9 col-md-8 required">
-                    <input type="text" name="name" id="name" class="form-control form-control-lg live" required
+                    <input pattern=".{4,}" title="This field requires at least 4 characters" type="text" name="name" id="name" class="form-control form-control-lg live" required
                       placeholder="Name of the item" data-class=".live-title" />
                   </div>
                 </div>
@@ -90,7 +90,7 @@ if (isset($_SESSION['user'])) {
                 <div class="mb-3 row">
                   <label for="description" class="col-sm-3 col-form-label form-control-lg">Description</label>
                   <div class="col-sm-9 col-md-8 required">
-                    <input type="text" name="description" id="description" class="form-control form-control-lg live"
+                    <input pattern=".{10,}" title="This field requires at least 10 characters" type="text" name="description" id="description" class="form-control form-control-lg live"
                       required="required" placeholder="Description of the item" data-class=".live-desc" />
                   </div>
                 </div>
@@ -117,8 +117,8 @@ if (isset($_SESSION['user'])) {
                 <div class="mb-3 row">
                   <label for="status" class="col-sm-3 col-form-label form-control-lg">Status</label>
                   <div class="col-sm-9 col-md-8 required">
-                    <select name="status" id="status">
-                      <option value="0" disabled selected></option>
+                    <select name="status" id="status" required>
+                      <option value="" disabled selected></option>
                       <option value="1">New</option>
                       <option value="2">Like New</option>
                       <option value="3">Used</option>
@@ -131,8 +131,8 @@ if (isset($_SESSION['user'])) {
                 <div class="mb-3 row">
                   <label for="category" class="col-sm-3 col-form-label form-control-lg">Category</label>
                   <div class="col-sm-9 col-md-8 required">
-                    <select name="category" id="category">
-                      <option value="0" disabled selected></option>
+                    <select name="category" id="category" required>
+                      <option value="" disabled selected></option>
                       <?php
                       $stmt2 = $con->prepare('SELECT * FROM categories');
                       $stmt2->execute();

@@ -79,7 +79,7 @@ if ($stmt->rowCount()) {
           <div class="comment">
             <h3>Add your comment</h3>
             <form action="<?= $_SERVER['PHP_SELF'] . "?itemID=" . $item['itemID'] ?>" method="POST">
-              <textarea name="comment"></textarea>
+              <textarea name="comment" required></textarea>
               <input class="btn btn-primary" type="submit" value="Add Comment">
             </form>
             <?php
@@ -97,6 +97,9 @@ if ($stmt->rowCount()) {
                 if ($stmt) {
                   echo "<div class='alert alert-success'>Comment Added!</div>";
                 }
+              }
+              else{
+                echo "<div class='alert alert-danger'>You must add a commment!</div>";
               }
             }
             ?>

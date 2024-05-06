@@ -81,14 +81,10 @@ body {
   font-size: 75px;
 }
 
-.home-stats .stat .info {}
-
 .home-stats .stat a {
   color: #FFF;
   text-decoration: none;
 }
-
-.home-stats .stat a:hover {}
 
 .home-stats .stat span {
   display: block;
@@ -114,9 +110,11 @@ body {
 .latest {
   margin-top: 30px;
 }
-.latest .card{
+
+.latest .card {
   margin-bottom: 5px;
 }
+
 .latest .toggle-info {
   color: #888;
   cursor: pointer;
@@ -211,7 +209,12 @@ h1 {
   vertical-align: middle !important;
 }
 
-.main-table .btn, .member-comment .btn {
+.main-table td.control {
+  width: 295px;
+}
+
+.main-table .btn,
+.member-comment .btn {
   padding: 3px 10px;
   margin: 5px 0 0 5px;
 }

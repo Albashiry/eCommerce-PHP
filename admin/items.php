@@ -55,12 +55,12 @@ if (isset($_SESSION['username'])) {
                 echo "<td>$item[add_date]</td>";
                 echo "<td>$item[catName]</td>";
                 echo "<td>$item[username]</td>";
-                echo "<td class='text-end'>";
+                echo "<td class='control'>";
                 if ($item['approve'] == 0) {
-                  echo "<a href='items.php?do=approve&itemID=$item[itemID]' class='btn btn-info activate'><i class='fa fa-check'></i> Approve</a>";
+                  echo "<a href='items.php?do=approve&itemID=$item[itemID]' class='btn btn-info activate'> <i class='fa fa-check'></i> Approve</a>";
                 }
-                echo "<a href='items.php?do=edit&itemID=$item[itemID]' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
-                      <a href='items.php?do=delete&itemID=$item[itemID]' class='btn btn-danger confirm'><i class='fa fa-close'></i> Delete</a>";
+                echo "<a href='items.php?do=edit&itemID=$item[itemID]' class='btn btn-success'> <i class='fa fa-edit'></i> Edit</a>
+                      <a href='items.php?do=delete&itemID=$item[itemID]' class='btn btn-danger confirm'> <i class='fa fa-close'></i> Delete</a>";
                 echo "</td>";
                 echo '</tr>';
               }
