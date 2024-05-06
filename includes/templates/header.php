@@ -18,20 +18,32 @@
 <body>
   <div class="upper-bar">
     <div class="container">
-      <?php if (isset($_SESSION['user'])) {
+      <?php if (isset($_SESSION['user'])) { ?>
 
-        echo "Welcome $sessionUser ";
-        echo "<a href='profile.php'>Profile</a>";
-        echo " - <a href='newad.php'>New Ad</a>";
-        echo " - <a href='logout.php'>Logout</a>";
+        <div class="my-info">
+          <img class='img-thumbnail rounded-circle avatar' src='avatar.png' alt='User Avatar'>
+          <div class="navbar">
+            <span class="btn btn-info text-white dropdown-toggle" type="button" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
+              <?= $sessionUser ?>
+            </span>
+            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenu">
+              <li><a class="dropdown-item" href='profile.php'>Profile</a></li>
+              <li><a class="dropdown-item" href='newad.php'>New item</a></li>
+              <li><a class="dropdown-item" href='profile.php#my-ads'>My items</a></li>
+              <li><a class="dropdown-item" href='logout.php'>Logout</a></li>
+            </ul>
+          </div>
+        </div>
 
-        if (checkUserStatus($sessionUser)) {
-          // user is not active
-          echo ' Your membership need to be activated by admin';
-        }
-      }
-      else {
-        ?>
+        <?php
+
+      // if (checkUserStatus($sessionUser)) {
+      //   // user is not active
+      //   echo ' Your membership need to be activated by admin';
+      // }
+    }
+    else {
+      ?>
         <a href="login.php"><span>Login/Signup</span></a>
       <?php } ?>
     </div>

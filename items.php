@@ -13,7 +13,7 @@ $stmt = $con->prepare("SELECT items.*, categories.name AS category_name, users.u
                         FROM items
                         INNER JOIN categories ON categories.catID = items.catID
                         INNER JOIN users ON users.userID = items.memberID
-                        WHERE itemID = ?");
+                        WHERE itemID = ? AND approve = 1");
 $stmt->execute(array($itemID)); // execute query
 
 if ($stmt->rowCount()) {
@@ -120,10 +120,18 @@ if ($stmt->rowCount()) {
     $comments = $stmt->fetchAll();
 
     foreach ($comments as $com) {
-      echo "<div class='row'>
-              <div class='col-md-3'>$com[member]</div>
-              <div class='col-md-9'>$com[comment]</div>
-            </div>";
+      echo "
+      <div class='comment-box'>
+        <div class='row'>
+          <div class='col-sm-2 text-center'>
+            <img class='img-thumbnail m-auto rounded-circle' src='avatar.png' alt='User Avatar'>
+            $com[member]
+          </div>
+          <div class='col-sm-10'>
+            <p class='lead'>$com[comment]</p>
+          </div>
+        </div>
+      </div>";
     }
     ?>
   </div>
@@ -131,7 +139,10 @@ if ($stmt->rowCount()) {
   <?php
 }
 else {
-  echo "There is no such ID";
+  echo "
+  <div class='container'>
+    <div class='alert alert-danger'>There is no such ID, or this item is waiting approval!</div>
+  </div>";
 }
 include "$tpl/footer.php";
 ob_end_flush();

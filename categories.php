@@ -1,5 +1,7 @@
 <?php
 ob_start();
+session_start();
+$pageTitle = "Categories";
 include 'init.php';
 ?>
 
@@ -14,7 +16,7 @@ include 'init.php';
         <div class='card item-box'>
           <span class='price-tag'>$item[price]</span>
           <img class='card-img-top img-thumbnail' src='avatar.png' alt='User Avatar'>
-          <div class='card-body'>
+          <div class='card-body caption'>
             <h3><a href='items.php?itemID=$item[itemID]'>$item[name]</a></h3>
             <p>$item[description]</p>
           </div>

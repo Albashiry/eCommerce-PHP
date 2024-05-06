@@ -15,15 +15,18 @@ function getCat() {
 }
 
 
-/* Get items function v1.0
- * function to get items from database
+/* Get Ad items function v2.0
+ * function to get Ad items from database
  * 
  *  returns array of results
  * */
-function getItems($where, $value) {
+function getItems($where, $value, $approve = NULL) {
   global $con;
 
-  $getItems = $con->prepare("SELECT * FROM items WHERE $where = ? ORDER BY itemID DESC");
+  $sql = $approve == NULL ? "AND approve = 1" : '';
+  // if ($approve == NULL) { $sql = "AND approve = 1"; } else { $sql = NULL; }
+
+  $getItems = $con->prepare("SELECT * FROM items WHERE $where = ? $sql ORDER BY itemID DESC");
   $getItems->execute(array($value));
   $items = $getItems->fetchAll();
   return $items;

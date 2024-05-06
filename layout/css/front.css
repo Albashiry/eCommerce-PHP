@@ -60,10 +60,18 @@ h1 {
 /* end bootstrap edits */
 /* start header */
 .upper-bar {
-  padding: 10px;
+  /* padding: 10px; */
   background-color: #FFF;
 }
-
+.my-info{
+  display: flex;
+  align-items: center;
+}
+.my-info .avatar{
+  width: 45px;
+  height: 45px;
+  margin: 5px;
+}
 /* end header */
 /* start login page */
 .login-page form,
@@ -116,6 +124,16 @@ h1 {
 /* start categories page */
 .item-box {
   position: relative;
+  margin-bottom: 5px;
+}
+
+.item-box .approve-status {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  background-color: #b85a8a;
+  color: #fff;
+  padding: 3px 5px;
 }
 
 .item-box .price-tag {
@@ -128,11 +146,14 @@ h1 {
   color: #FFF;
   border-radius: 0 5px 5px 0;
 }
-
+.item-box .caption p{
+  height: 44px;
+  max-height: 44px;
+}
 .item-box .date {
   text-align: right;
   font-size: 13px;
-  color: #eee;
+  color: #c0c0c0;
   font-weight: bold;
 }
 
@@ -163,7 +184,7 @@ h1 {
 
 /* end profile page */
 /* start show item page */
-.item-info h2{
+.item-info h2 {
   padding: 10px;
   margin: 0;
 }
@@ -184,16 +205,59 @@ h1 {
   display: inline-block;
   width: 130px;
 }
-.comment h3{
+
+.comment h3 {
   margin: 0 0 10px;
 }
-.comment textarea{
+
+.comment textarea {
   display: block;
   margin-bottom: 10px;
   width: 500px;
   height: 120px;
 }
-.comment input[type='button']{
+
+.comment input[type='button'] {
   margin-bottom: 5px;
 }
+
+.comment-box {
+  padding: 10px 0;
+}
+
+.comment-box:not(:last-of-type) {
+  border-bottom: 1px solid #c9c9c9;
+}
+
+.comment-box img {
+  max-width: 100px;
+  display: block;
+  margin: auto;
+}
+
+.comment-box .lead {
+  background-color: #e0e0e0;
+  position: relative;
+  padding: 10px;
+  margin-top: 1rem;
+}
+
+.comment-box .lead::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-width: 20px;
+  border-style: solid;
+  border-color: transparent #e0e0e0 transparent transparent;
+  position: absolute;
+  left: -35px;
+  top: 5px;
+}
+
 /* end show item page */
+/* start our custom */
+.custom-hr {
+  border-top: 1px solid #c9c9c9;
+}
+
+/* end our custom */

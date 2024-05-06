@@ -50,24 +50,27 @@ if (isset($_SESSION['user'])) {
     </div>
   </div>
 
-  <div class="ads block">
+  <div class="ads block" id="my-ads">
     <div class="container">
       <div class="card">
         <div class="card-header bg-primary text-white">
-          MY ads
+          My items
         </div>
         <div class="card-body">
 
           <?php
           if (!empty(getItems('memberID', $info['userID']))) {
             echo "<div class='row'>";
-            foreach (getItems('memberID', $info['userID']) as $item) {
+            foreach (getItems('memberID', $info['userID'], 1) as $item) {
               echo "
             <div class='col-sm-6 col-md-3'>
-              <div class='card item-box'>
-                <span class='price-tag'>$item[price]$</span>
+              <div class='card item-box'>";
+              if ($item['approve'] == 0) {
+                echo "<span class='approve-status'>Waiting Approval</span>";
+              }
+              echo "<span class='price-tag'>$item[price]$</span>
                 <img class='card-img-top img-thumbnail' src='avatar.png' alt='User Avatar'>
-                <div class='card-body'>
+                <div class='card-body caption'>
                   <h3><a href='items.php?itemID=$item[itemID]'>$item[name]</a></h3>
                   <p>$item[description]</p>
                   <div class='date'>$item[add_date]</div>
