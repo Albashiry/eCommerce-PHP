@@ -9,7 +9,8 @@ include 'init.php';
   <h1 class="text-center">Show Category</h1>
   <div class="row">
     <?php
-    foreach (getItems('catID', $_GET['pageID']) as $item) {
+    $allItems = getAllFrom('*', 'items', "WHERE catID = {$_GET['pageID']}", 'AND approve = 1', 'itemID');
+    foreach ($allItems as $item) {
       echo "
       <div class='col-sm-6 col-md-3'>
         <div class='card item-box'>

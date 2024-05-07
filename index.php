@@ -8,7 +8,7 @@ include 'init.php';
 <div class="container">
   <div class="row">
     <?php
-    $allItems = getAllFrom('items', 'WHERE approve = 1', 'itemID');
+    $allItems = getAllFrom('*', 'items', 'WHERE approve = 1', '', 'itemID');
     foreach ($allItems as $item) {
       echo "
       <div class='col-sm-6 col-md-3'>

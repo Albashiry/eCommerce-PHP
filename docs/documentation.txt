@@ -1,6 +1,11 @@
 $noNavbar => if this variable isset then the page does not include navbar (the condition is in init.php)
 
-Functions:
----
----
----
+==========================
+=== Functions Document ===
+==========================
+
+function getAllFrom($field, $table, $where = NULL, $and = NULL, $orderField = 'NULL', $ordering = 'DESC')
+
+function to get all records from any database table and returns array of results
+$allItems = getAllFrom('*', 'items', 'WHERE approve = 1', '', 'itemID', 'ASC');
+$approveditems = getAllFrom('*', 'items', "WHERE memberID = {$info['userID']}", 'AND approve = 1');

@@ -60,9 +60,10 @@ if (isset($_SESSION['user'])) {
         <div class="card-body">
 
           <?php
-          if (!empty(getItems('memberID', $info['userID']))) {
+          $items = getAllFrom('*', 'items', "WHERE memberID = {$info['userID']}", "", "itemID");
+          if (!empty($items)) {
             echo "<div class='row'>";
-            foreach (getItems('memberID', $info['userID'], 1) as $item) {
+            foreach ($items as $item) {
               echo "
             <div class='col-sm-6 col-md-3'>
               <div class='card item-box'>";
@@ -99,11 +100,8 @@ if (isset($_SESSION['user'])) {
         </div>
         <div class="card-body">
           <?php
-          // show item comments
-          $stmt = $con->prepare("SELECT comment FROM comments WHERE userID = ?");
-          $stmt->execute(array($info['userID']));
+          $comments = getAllFrom('comment', 'comments', "WHERE userID = {$info['userID']}", "", "comID");
 
-          $comments = $stmt->fetchAll();
           if (!empty($comments)) {
             foreach ($comments as $comment) {
               echo "<p>$comment[comment]</p>";

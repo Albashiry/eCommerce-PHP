@@ -139,7 +139,7 @@ if (isset($_SESSION['user'])) {
                       // $stmt2 = $con->prepare('SELECT * FROM categories');
                       // $stmt2->execute();
                       // $cats = $stmt2->fetchAll();
-                      $cats = getAllFrom('categories');
+                      $cats = getAllFrom('*', 'categories');
                       foreach ($cats as $cat) {
                         echo "<option value='$cat[catID]'>$cat[name]</option>";
                       }

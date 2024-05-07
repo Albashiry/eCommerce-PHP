@@ -23,7 +23,8 @@
         <div class="my-info">
           <img class='img-thumbnail rounded-circle avatar' src='avatar.png' alt='User Avatar'>
           <div class="navbar">
-            <span class="btn btn-info text-white dropdown-toggle" type="button" id="dropdownMenu" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="btn btn-info text-white dropdown-toggle" type="button" id="dropdownMenu"
+              data-bs-toggle="dropdown" aria-expanded="false">
               <?= $sessionUser ?>
             </span>
             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenu">
@@ -61,7 +62,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <?php
-          foreach (getCat() as $cat) {
+          foreach (getAllFrom('*', 'categories', '', '', 'catID', "ASC") as $cat) {
             echo "<li class='nav-item'><a class='nav-link active' aria-current='page' href='categories.php?pageID=$cat[catID]'>$cat[name]</a></li>";
           }
           ?>

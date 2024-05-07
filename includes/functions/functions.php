@@ -1,15 +1,16 @@
 <?php
-/* Get All function v2.0
+/* Get All function v3.0
  * function to get all records from any database table
  * 
  *  returns array of results
+ * 
+ * override getCat()
+ * override getItems()
  * */
-function getAllFrom($table, $where = NULL, $orderBy = 'NULL') {
+function getAllFrom($field, $table, $where = NULL, $and = NULL, $orderField = 'NULL', $ordering = 'DESC') {
   global $con;
 
-  $sql = $where == NULL ? '' : $where;
-
-  $getAll = $con->prepare("SELECT * FROM $table $sql ORDER BY $orderBy DESC");
+  $getAll = $con->prepare("SELECT * FROM $table $where $and ORDER BY $orderField $ordering");
   $getAll->execute(array());
   $all = $getAll->fetchAll();
   return $all;
@@ -19,7 +20,7 @@ function getAllFrom($table, $where = NULL, $orderBy = 'NULL') {
  * function to get categories from database
  * 
  *  returns array of results
- * */
+ * *
 function getCat() {
   global $con;
 
@@ -27,14 +28,14 @@ function getCat() {
   $getCat->execute();
   $cats = $getCat->fetchAll();
   return $cats;
-}
+}*/
 
 
 /* Get Ad items function v2.0
  * function to get Ad items from database
  * 
  *  returns array of results
- * */
+ * *
 function getItems($where, $value, $approve = NULL) {
   global $con;
 
@@ -45,7 +46,7 @@ function getItems($where, $value, $approve = NULL) {
   $getItems->execute(array($value));
   $items = $getItems->fetchAll();
   return $items;
-}
+}*/
 
 
 /* checkUserStatus function v1.0
