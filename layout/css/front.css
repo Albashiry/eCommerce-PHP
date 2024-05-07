@@ -187,6 +187,10 @@ h1 {
   width: 130px;
 }
 
+.information .btn {
+  margin-top: 10px;
+}
+
 /* end profile page */
 /* start show item page */
 .item-info h2 {
@@ -263,6 +267,30 @@ h1 {
 /* start our custom */
 .custom-hr {
   border-top: 1px solid #c9c9c9;
+}
+
+.btn-default {
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+.btn-default:focus {
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #8c8c8c;
+}
+
+.btn-default:hover {
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+
+.btn-default:active {
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
 }
 
 /* end our custom */

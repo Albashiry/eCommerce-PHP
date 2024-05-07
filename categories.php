@@ -5,7 +5,6 @@ $pageTitle = "Categories";
 include 'init.php';
 ?>
 
-
 <div class="container">
   <h1 class="text-center">Show Category</h1>
   <div class="row">
@@ -27,7 +26,6 @@ include 'init.php';
     ?>
   </div>
 </div>
-
 
 <?php
 include "$tpl/footer.php";

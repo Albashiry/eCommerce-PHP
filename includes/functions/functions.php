@@ -1,4 +1,19 @@
 <?php
+/* Get All function v2.0
+ * function to get all records from any database table
+ * 
+ *  returns array of results
+ * */
+function getAllFrom($table, $where = NULL, $orderBy = 'NULL') {
+  global $con;
+
+  $sql = $where == NULL ? '' : $where;
+
+  $getAll = $con->prepare("SELECT * FROM $table $sql ORDER BY $orderBy DESC");
+  $getAll->execute(array());
+  $all = $getAll->fetchAll();
+  return $all;
+}
 
 /* Get categories function v1.0
  * function to get categories from database

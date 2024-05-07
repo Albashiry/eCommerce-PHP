@@ -57,7 +57,7 @@ if (isset($_SESSION['user'])) {
 
       // echo success message
       if ($stmt) {
-        echo "Item added";
+        $successMsg = "Item has been added";
       }
     }
   }
@@ -81,8 +81,9 @@ if (isset($_SESSION['user'])) {
                 <div class="mb-3 row">
                   <label for="name" class="col-sm-3 col-form-label form-control-lg">Name</label>
                   <div class="col-sm-9 col-md-8 required">
-                    <input pattern=".{4,}" title="This field requires at least 4 characters" type="text" name="name" id="name" class="form-control form-control-lg live" required
-                      placeholder="Name of the item" data-class=".live-title" />
+                    <input pattern=".{4,}" title="This field requires at least 4 characters" type="text" name="name"
+                      id="name" class="form-control form-control-lg live" required placeholder="Name of the item"
+                      data-class=".live-title" />
                   </div>
                 </div>
                 <!-- end name field -->
@@ -90,8 +91,9 @@ if (isset($_SESSION['user'])) {
                 <div class="mb-3 row">
                   <label for="description" class="col-sm-3 col-form-label form-control-lg">Description</label>
                   <div class="col-sm-9 col-md-8 required">
-                    <input pattern=".{10,}" title="This field requires at least 10 characters" type="text" name="description" id="description" class="form-control form-control-lg live"
-                      required="required" placeholder="Description of the item" data-class=".live-desc" />
+                    <input pattern=".{10,}" title="This field requires at least 10 characters" type="text"
+                      name="description" id="description" class="form-control form-control-lg live" required="required"
+                      placeholder="Description of the item" data-class=".live-desc" />
                   </div>
                 </div>
                 <!-- end description field -->
@@ -134,9 +136,10 @@ if (isset($_SESSION['user'])) {
                     <select name="category" id="category" required>
                       <option value="" disabled selected></option>
                       <?php
-                      $stmt2 = $con->prepare('SELECT * FROM categories');
-                      $stmt2->execute();
-                      $cats = $stmt2->fetchAll();
+                      // $stmt2 = $con->prepare('SELECT * FROM categories');
+                      // $stmt2->execute();
+                      // $cats = $stmt2->fetchAll();
+                      $cats = getAllFrom('categories');
                       foreach ($cats as $cat) {
                         echo "<option value='$cat[catID]'>$cat[name]</option>";
                       }
@@ -177,6 +180,9 @@ if (isset($_SESSION['user'])) {
             foreach ($formErrors as $error) {
               echo "<div class='alert alert-danger'>$error</div>";
             }
+          }
+          if (isset($successMsg)) {
+            echo "<div class='alert alert-success'>$successMsg</div>";
           }
           ?>
           <!-- end looping through errors -->
