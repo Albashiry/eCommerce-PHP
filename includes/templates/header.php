@@ -62,8 +62,12 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <?php
-          foreach (getAllFrom('*', 'categories', '', '', 'catID', "ASC") as $cat) {
-            echo "<li class='nav-item'><a class='nav-link active' aria-current='page' href='categories.php?pageID=$cat[catID]'>$cat[name]</a></li>";
+          $allCats = getAllFrom('*', 'categories', 'WHERE parent = 0', '', 'catID', "ASC");
+          foreach ($allCats as $cat) {
+            echo "
+            <li class='nav-item'>
+              <a class='nav-link active' aria-current='page' href='categories.php?pageID=$cat[catID]'>$cat[name]</a>
+            </li>";
           }
           ?>
 

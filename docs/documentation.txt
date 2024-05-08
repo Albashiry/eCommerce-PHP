@@ -4,7 +4,7 @@ $noNavbar => if this variable isset then the page does not include navbar (the c
 === Functions Document ===
 ==========================
 
-function getAllFrom($field, $table, $where = NULL, $and = NULL, $orderField = 'NULL', $ordering = 'DESC')
+getAllFrom($field, $table, $where = NULL, $and = NULL, $orderField = 'NULL', $ordering = 'DESC')
 
 function to get all records from any database table and returns array of results
 $allItems = getAllFrom('*', 'items', 'WHERE approve = 1', '', 'itemID', 'ASC');

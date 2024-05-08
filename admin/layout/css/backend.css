@@ -16,6 +16,10 @@ body {
   color: #D20707;
 }
 
+a {
+  text-decoration: none !important;
+}
+
 /* end main rules */
 /* start login form */
 .login {
@@ -320,7 +324,28 @@ h1 {
 
 .categories .cat .advertises {
   background-color: #6002ee;
-  ;
 }
 
+.categories .child-head {
+  margin: 15px 0 5px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #22ab79;
+}
+
+.categories .child-cats {
+  margin: 0;
+}
+
+.categories .child-cats li {
+  margin-left: 10px;
+}
+
+.categories .child-cats li:before {
+  content: "- ";
+}
+.categories .show-delete{
+  color: #f00;
+  display: none;
+}
 /* end categories page */

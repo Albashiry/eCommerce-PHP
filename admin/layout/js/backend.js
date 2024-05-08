@@ -2,18 +2,18 @@ $(function () {
   'use strict';
 
   // Dashboard
-  $('.toggle-info').click(function(){
+  $('.toggle-info').click(function () {
     $(this).toggleClass('selected').parent().next('.card-body').slideToggle();
 
     if ($(this).hasClass('selected')) {
       $(this).html('<i class="fa fa-plus fa-lg"></i>');
     }
-    else{
+    else {
       $(this).html('<i class="fa fa-minus fa-lg"></i>');
     }
   });
-  
-  
+
+
   // trigger the selectboxit
   $("select").selectBoxIt({
     autoWidth: false
@@ -72,5 +72,12 @@ $(function () {
     else {
       $('.cat .full-view').fadeOut();
     }
+  });
+
+  // Show Delete button on child cats
+  $('.child-link').hover(function () {
+    $(this).find('.show-delete').fadeIn();
+  }, function () {
+    $(this).find('.show-delete').fadeOut();
   });
 });

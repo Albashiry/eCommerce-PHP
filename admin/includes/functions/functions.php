@@ -1,4 +1,20 @@
 <?php
+/* Get All function v3.0
+ * function to get all records from any database table
+ * 
+ *  returns array of results
+ * 
+ * override getCat()
+ * override getItems()
+ * */
+function getAllFrom($field, $table, $where = NULL, $and = NULL, $orderField = 'NULL', $ordering = 'DESC') {
+  global $con;
+
+  $getAll = $con->prepare("SELECT * FROM $table $where $and ORDER BY $orderField $ordering");
+  $getAll->execute(array());
+  $all = $getAll->fetchAll();
+  return $all;
+}
 
 /* title function v1.0
  * title function that echo the page title in case the page has the variable $pageTitle
