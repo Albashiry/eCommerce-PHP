@@ -67,6 +67,18 @@ if ($stmt->rowCount()) {
               <?= $item['username'] ?>
             </a>
           </li>
+          <li>
+            <i class="fa fa-user fa-fw"></i>
+            <span>Tags</span>:
+            <?php
+            $allTags = explode(',', $item['tags']);
+            foreach ($allTags as $tag) {
+              $tag = str_replace(' ', '', $tag);
+              $tagLower = strtolower($tag);
+              echo "<a class='tag' href='tags.php?name={$tagLower}'>$tag</a>";
+            }
+            ?>
+          </li>
         </ul>
       </div>
     </div>
@@ -98,7 +110,7 @@ if ($stmt->rowCount()) {
                   echo "<div class='alert alert-success'>Comment Added!</div>";
                 }
               }
-              else{
+              else {
                 echo "<div class='alert alert-danger'>You must add a commment!</div>";
               }
             }

@@ -5,6 +5,7 @@
   <script src="<?= $js; ?>jquery-ui.min.js"></script>
   <script src="<?= $js; ?>bootstrap.min.js"></script>
   <script src="<?= $js; ?>jquery.selectBoxIt.min.js"></script>
+  <script src="<?= $js; ?>inputTags.jquery.min.js"></script>
   <script src="<?= $js; ?>front.js"></script>
 </body>
 </html>

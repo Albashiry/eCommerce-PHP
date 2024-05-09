@@ -1,6 +1,9 @@
 $(function () {
   'use strict';
 
+  // use jQuery input tags
+  $('#tags').inputTags();
+
   // switch between login and signup
   $('.login-page h1 span').click(function () {
     $(this).addClass('selected').siblings().removeClass('selected');

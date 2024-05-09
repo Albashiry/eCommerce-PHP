@@ -23,6 +23,8 @@ $(function () {
     $(this).find('option:first').hide();
   });
 
+  // use jQuery input tags
+  $('#tags').inputTags();
 
   // hide placeholder on form focus
   $('[placeholder]').focus(function () {

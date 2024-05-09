@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="<?= $css; ?>/fontAwesome.min.css"/>
   <link rel="stylesheet" href="<?= $css; ?>/jquery-ui.min.css"/>
   <link rel="stylesheet" href="<?= $css; ?>/jquery.selectBoxIt.css"/>
+  <link rel="stylesheet" href="<?= $css; ?>/inputTags.min.css"/>
   <link rel="stylesheet" href="<?= $css; ?>/backend.css"/>
   <title><?= getTitle()?></title>
 </head>

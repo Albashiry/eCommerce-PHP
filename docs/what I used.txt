@@ -8,6 +8,7 @@ What I use:
 - MySQL
 - SelectBoxIt blugin
 - jQueryUI
+- jQuery tags blugin
 
 Editors:
 - AptanaStusio

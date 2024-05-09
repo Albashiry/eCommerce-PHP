@@ -215,6 +215,10 @@ h1 {
   width: 130px;
 }
 
+.item-info .tag:not(:last-of-type)::after{
+  content: " | ";
+}
+
 .comment h3 {
   margin: 0 0 10px;
 }

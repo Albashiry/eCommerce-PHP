@@ -17,6 +17,7 @@ if (isset($_SESSION['user'])) {
     $country  = strip_tags($_POST['country']);
     $status   = filter_var($_POST['status'], FILTER_SANITIZE_NUMBER_INT);
     $category = filter_var($_POST['category'], FILTER_SANITIZE_NUMBER_INT);
+    $tags     = strip_tags($_POST['tags']);
 
     if (strlen($name) < 4) {
       $formErrors[] = "Item title must be at least 4 characters";
@@ -41,8 +42,8 @@ if (isset($_SESSION['user'])) {
     if (empty($formErrors)) {
 
       // insert user info into the database
-      $stmt = $con->prepare("INSERT INTO items (name, description, price, country_made, status, add_date, catID, memberID )
-                              VALUES (:zname, :zdesc, :zprice, :zcountry, :zstatus, now(), :zcat, :zmember)");
+      $stmt = $con->prepare("INSERT INTO items (name, description, price, country_made, status, add_date, catID, memberID, tags)
+                              VALUES (:zname, :zdesc, :zprice, :zcountry, :zstatus, now(), :zcat, :zmember, :ztags)");
       $stmt->execute(
         array(
           'zname'    => $name,
@@ -51,7 +52,8 @@ if (isset($_SESSION['user'])) {
           'zcountry' => $country,
           'zstatus'  => $status,
           'zcat'     => $category,
-          'zmember'  => $_SESSION['uid']
+          'zmember'  => $_SESSION['uid'],
+          'ztags'    => $tags
         )
       ); //bind parameters and execute query
 
@@ -136,18 +138,28 @@ if (isset($_SESSION['user'])) {
                     <select name="category" id="category" required>
                       <option value="" disabled selected></option>
                       <?php
-                      // $stmt2 = $con->prepare('SELECT * FROM categories');
-                      // $stmt2->execute();
-                      // $cats = $stmt2->fetchAll();
-                      $cats = getAllFrom('*', 'categories');
-                      foreach ($cats as $cat) {
+                      $allCats = getAllFrom('*', 'categories', "WHERE parent = 0");
+                      foreach ($allCats as $cat) {
                         echo "<option value='$cat[catID]'>$cat[name]</option>";
+                        $childCats = getAllFrom('*', 'categories', "WHERE parent = $cat[catID]", '', 'catID');
+                        foreach ($childCats as $child) {
+                          echo "<option value='$child[catID]'> --- $child[name]</option>";
+                        }
                       }
                       ?>
                     </select>
                   </div>
                 </div>
                 <!-- end categories field -->
+                <!-- start tags field -->
+                <div class="mb-3 row">
+                  <label for="tags" class="col-sm-3 col-form-label form-control-lg">Tags</label>
+                  <div class="col-sm-9 col-md-8 required">
+                    <input type="text" name="tags" id="tags" class="form-control form-control-lg"
+                      placeholder="Seperate tags with comma (,)" />
+                  </div>
+                </div>
+                <!-- end tags field -->
 
                 <!-- start submit field -->
                 <div class="mb-3 row">
