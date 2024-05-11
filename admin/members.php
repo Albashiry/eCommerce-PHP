@@ -37,6 +37,7 @@ if (isset($_SESSION['username'])) {
             <tbody>
               <tr>
                 <th>#ID</th>
+                <th>Avatar</th>
                 <th>Username</th>
                 <th>Email</th>
                 <th>Fullname</th>
@@ -47,11 +48,15 @@ if (isset($_SESSION['username'])) {
               foreach ($users as $user) {
                 echo '<tr>';
                 echo "<td>$user[userID]</td>";
+                echo "<td class='avatar'>";
+                echo empty($user['avatar'])
+                  ? "<img src='..\data\uploads\avatars\default-avatar.jpg' alt='default-avatar'></td>"
+                  : "<img src='..\data\uploads\avatars\\$user[avatar]' alt='$user[avatar]'></td>";
                 echo "<td>$user[username]</td>";
                 echo "<td>$user[email]</td>";
                 echo "<td>$user[fullname]</td>";
                 echo "<td>$user[date]</td>";
-                echo "<td class='text-end'>";
+                echo "<td class='text-end control'>";
                 if ($user['regStatus'] == 0) {
                   echo "<a href='members.php?do=activate&userID=$user[userID]' class='btn btn-info activate'><i class='fa fa-check'></i> Activate</a>";
                 }
@@ -121,8 +126,7 @@ if (isset($_SESSION['username'])) {
         <div class="mb-3 row">
           <label for="avatar" class="col-sm-3 col-form-label form-control-lg">User avatar</label>
           <div class="col-sm-9 col-md-6 required">
-            <input type="file" name="avatar" id="avatar" class="form-control form-control-lg" required="required"
-              placeholder="avatar appear in your profile page">
+            <input type="file" name="avatar" id="avatar" class="form-control form-control-lg" required="required">
           </div>
         </div>
         <!-- end avatar field -->
@@ -202,9 +206,7 @@ if (isset($_SESSION['username'])) {
 
       // check if there is no error, proceed the update operation
       if (empty($formErrors)) {
-        $avatar = rand(0, 99999999999) . '_' . $avatarName;
 
-        move_uploaded_file($avatarTemp, "..\data\uploads\avatars\\$avatar");
         // check if user exists in database
         $check = checkCount('username', 'users', $user);
         if ($check) {
@@ -213,6 +215,8 @@ if (isset($_SESSION['username'])) {
 
         }
         else {
+          $avatar = rand(0, 99999999999) . '_' . $avatarName;
+          move_uploaded_file($avatarTemp, "..\data\uploads\avatars\\$avatar");
           // insert user info into the database
           $stmt = $con->prepare("INSERT INTO users (username, password, email, fullname, regStatus, date, avatar)
                                  VALUES (:zuser, :zpass, :zmail, :zname, 1, now(), :zavatar) ");
@@ -259,7 +263,7 @@ if (isset($_SESSION['username'])) {
 
       <h1 class="text-center">Edit Member</h1>
       <div class="container">
-        <form class="form-horizontal" action="members.php?do=update" method="post">
+        <form class="form-horizontal" action="members.php?do=update" method="post" enctype="multipart/form-data">
           <input type="hidden" name="userID" value="<?= $userID ?>">
           <!-- send userID to select it in database when update -->
 
@@ -300,6 +304,15 @@ if (isset($_SESSION['username'])) {
             </div>
           </div>
           <!-- end fullname field -->
+          <!-- start avatar field -->
+          <div class="mb-3 row">
+            <label for="avatar" class="col-sm-3 col-form-label form-control-lg">User avatar</label>
+            <div class="col-sm-9 col-md-6 required">
+              <input type="hidden" name="oldAvatar" id="oldAvatar" value="<?= $row['avatar'] ?>">
+              <input type="file" name="avatar" id="avatar" class="form-control form-control-lg">
+            </div>
+          </div>
+          <!-- end avatar field -->
           <!-- start submit field -->
           <div class="mb-3 row">
             <div class="offset-sm-3 col-sm-9">
@@ -326,14 +339,27 @@ if (isset($_SESSION['username'])) {
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
+      // Extract details from the uploaded file
+      $avatarName = $_FILES['avatar']['name'];
+      $avatarSize = $_FILES['avatar']['size'];
+      $avatarType = $_FILES['avatar']['type'];
+      $avatarTemp = $_FILES['avatar']['tmp_name'];
+
+      // Allowed file type list
+      $allowedExtensions = array('jpeg', 'jpg', 'png', 'gif');
+
+      // Extract extension
+      $avatarExtension = strtolower(pathinfo($avatarName, PATHINFO_EXTENSION));
+
       // get the variables from the form
       $userID = $_POST['userID'];
       $user   = $_POST['username'];
       $email  = $_POST['email'];
       $name   = $_POST['fullname'];
+      $avatar   = $_POST['oldAvatar'];
 
       // password trick
-      $pass = empty($_POST['newPassword']) ? $pass = $_POST['oldPassword'] : $pass = sha1($_POST['newPassword']);
+      $pass = empty($_POST['newPassword']) ? $_POST['oldPassword'] : sha1($_POST['newPassword']);
 
       // validate the form
       $formErrors = array();
@@ -352,6 +378,12 @@ if (isset($_SESSION['username'])) {
       if (empty($email)) {
         $formErrors[] = 'email can\'t be <strong>empty</strong>';
       }
+      if (!empty($avatarName) && !in_array($avatarExtension, $allowedExtensions)) {
+        $formErrors[] = 'This extension is <strong>not allowed</strong>';
+      }
+      if ($avatarSize > 5242880) {
+        $formErrors[] = 'Avatar can\'t larger than <strong>5MB</strong>';
+      }
       foreach ($formErrors as $error) {
         echo '<div class="alert alert-danger">' . $error . '</div>';
       }
@@ -368,9 +400,14 @@ if (isset($_SESSION['username'])) {
           redirectHome($theMsg, 'back', 2);
         }
         else {
+          if (!empty($avatarName)) {
+            $avatar = rand(0, 99999999999) . '_' . $avatarName;
+            move_uploaded_file($avatarTemp, "..\data\uploads\avatars\\$avatar");
+          }
+
           // update the database with this info
-          $stmt = $con->prepare("UPDATE users SET username=?, email=?, fullname=?, password=? WHERE userID=?");
-          $stmt->execute(array($user, $email, $name, $pass, $userID));
+          $stmt = $con->prepare("UPDATE users SET username=?, password=?, email=?, fullname=?, avatar=? WHERE userID=?");
+          $stmt->execute(array($user, $pass, $email, $name, $avatar, $userID));
 
           // echo success message
           $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' record updated</div>';

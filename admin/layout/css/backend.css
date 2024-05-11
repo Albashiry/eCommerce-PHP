@@ -217,6 +217,16 @@ h1 {
   width: 295px;
 }
 
+.main-table td.avatar {
+  padding: 0;
+}
+
+.main-table img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
 .main-table .btn,
 .member-comment .btn {
   padding: 3px 10px;
@@ -344,8 +354,10 @@ h1 {
 .categories .child-cats li:before {
   content: "- ";
 }
-.categories .show-delete{
+
+.categories .show-delete {
   color: #f00;
   display: none;
 }
+
 /* end categories page */

@@ -22,7 +22,14 @@
       <?php if (isset($_SESSION['user'])) { ?>
 
         <div class="my-info">
-          <img class='img-thumbnail rounded-circle avatar' src='avatar.png' alt='User Avatar'>
+          <?php
+          $getUser = $con->prepare("SELECT avatar FROM users WHERE username = ?");
+          $getUser->execute(array($sessionUser));
+          $info = $getUser->fetch();
+          $avatar = empty($info['avatar'])? "data\uploads\avatars\default-avatar.jpg" :"data\uploads\avatars\\$info[avatar]";
+          ?>
+          <img class='img-thumbnail rounded-circle avatar' src="<?= $avatar ?>"
+            alt='User Avatar'>
           <div class="navbar">
             <span class="btn btn-info text-white dropdown-toggle" type="button" id="dropdownMenu"
               data-bs-toggle="dropdown" aria-expanded="false">
