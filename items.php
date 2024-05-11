@@ -67,15 +67,17 @@ if ($stmt->rowCount()) {
               <?= $item['username'] ?>
             </a>
           </li>
-          <li>
+          <li class="tags-items">
             <i class="fa fa-user fa-fw"></i>
             <span>Tags</span>:
             <?php
             $allTags = explode(',', $item['tags']);
             foreach ($allTags as $tag) {
-              $tag = str_replace(' ', '', $tag);
+              $tag      = str_replace(' ', '', $tag);
               $tagLower = strtolower($tag);
-              echo "<a class='tag' href='tags.php?name={$tagLower}'>$tag</a>";
+              if (!empty($tag)) {
+                echo "<a class='tag' href='tags.php?name={$tagLower}'>$tag</a>";
+              }
             }
             ?>
           </li>
