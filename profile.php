@@ -207,7 +207,6 @@ if (isset($_SESSION['user'])) {
                   header("Refresh: 1; url=profile.php");
                 }
               }
-
             }
             else {
               $theMsg = '<div class="alert alert-danger">Sorry, you can\'t browse this page directly!</div>';
@@ -242,8 +241,9 @@ if (isset($_SESSION['user'])) {
               if ($item['approve'] == 0) {
                 echo "<span class='approve-status'>Waiting Approval</span>";
               }
+              $imgSource = empty($item['image']) ? "default-item.jpg" : $item['image'];
               echo "<span class='price-tag'>$item[price]$</span>
-                <img class='card-img-top img-thumbnail' src='avatar.png' alt='User Avatar'>
+                <img class='card-img-top img-thumbnail' src='data\uploads\items\\$imgSource' alt='User Avatar'>
                 <div class='card-body caption'>
                   <h3><a href='items.php?itemID=$item[itemID]'>$item[name]</a></h3>
                   <p>$item[description]</p>

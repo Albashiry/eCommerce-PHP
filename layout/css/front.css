@@ -159,6 +159,11 @@ a {
   border-radius: 0 5px 5px 0;
 }
 
+.item-box img {
+  width: 100%;
+  height: 250px;
+}
+
 .item-box .caption p {
   height: 44px;
   max-height: 44px;
@@ -172,6 +177,16 @@ a {
 }
 
 /* end categories page */
+/* start items page */
+.items .img-box img {
+  margin-top: 25px;
+}
+
+.items .img-box img {
+  height: 250px;
+}
+
+/* end items page */
 /* start profile page */
 .information,
 .block {

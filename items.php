@@ -18,16 +18,17 @@ $stmt->execute(array($itemID)); // execute query
 
 if ($stmt->rowCount()) {
   // fetch the data 
-  $item = $stmt->fetch();
+  $item      = $stmt->fetch();
+  $imgSource = empty($item['image']) ? "default-item.jpg" : $item['image'];
   ?>
 
   <h1 class="text-center">
     <?= $item['name'] ?>
   </h1>
-  <div class="container">
+  <div class="container items">
     <div class="row">
-      <div class="col-md-3">
-        <img class='img-thumbnail m-auto' src='avatar.png' alt='User Avatar'>
+      <div class="col-md-3 img-box">
+        <img class='img-thumbnail m-auto' src='data\uploads\items\<?= $imgSource ?>' alt='User Avatar'>
       </div>
       <div class="col-md-9 item-info">
         <h2>
