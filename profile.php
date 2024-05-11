@@ -6,9 +6,12 @@ $pageTitle = "Profile";
 include 'init.php';
 
 if (isset($_SESSION['user'])) {
-  $getUser = $con->prepare("SELECT * FROM users WHERE username = ?");
-  $getUser->execute(array($sessionUser));
-  $info = $getUser->fetch();
+  $info = getAllFrom('*', 'users', "WHERE username = '$sessionUser'")[0];
+  // echo '<pre>';
+  // print_r($currentUser);
+  // $getUser = $con->prepare("SELECT * FROM users WHERE username = ?");
+  // $getUser->execute(array($sessionUser));
+  // $info = $getUser->fetch();
   ?>
 
   <h1 class="text-center">My profile</h1>
