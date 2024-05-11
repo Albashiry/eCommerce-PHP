@@ -55,7 +55,7 @@ if (isset($_SESSION['username'])) {
                 if ($user['regStatus'] == 0) {
                   echo "<a href='members.php?do=activate&userID=$user[userID]' class='btn btn-info activate'><i class='fa fa-check'></i> Activate</a>";
                 }
-                  echo "<a href='members.php?do=edit&userID=$user[userID]' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
+                echo "<a href='members.php?do=edit&userID=$user[userID]' class='btn btn-success'><i class='fa fa-edit'></i> Edit</a>
                         <a href='members.php?do=delete&userID=$user[userID]' class='btn btn-danger confirm'><i class='fa fa-close'></i> Delete</a>";
                 echo "</td>";
                 echo '</tr>';
@@ -79,7 +79,7 @@ if (isset($_SESSION['username'])) {
 
     <h1 class="text-center">Add New Member</h1>
     <div class="container">
-      <form class="form-horizontal" action="members.php?do=insert" method="post">
+      <form class="form-horizontal" action="members.php?do=insert" method="post" enctype="multipart/form-data">
         <!-- start username field -->
         <div class="mb-3 row">
           <label for="username" class="col-sm-3 col-form-label form-control-lg">Username</label>
@@ -117,6 +117,15 @@ if (isset($_SESSION['username'])) {
           </div>
         </div>
         <!-- end fullname field -->
+        <!-- start avatar field -->
+        <div class="mb-3 row">
+          <label for="avatar" class="col-sm-3 col-form-label form-control-lg">User avatar</label>
+          <div class="col-sm-9 col-md-6 required">
+            <input type="file" name="avatar" id="avatar" class="form-control form-control-lg" required="required"
+              placeholder="avatar appear in your profile page">
+          </div>
+        </div>
+        <!-- end avatar field -->
         <!-- start submit field -->
         <div class="mb-3 row">
           <div class="offset-sm-3 col-sm-9">
@@ -135,6 +144,20 @@ if (isset($_SESSION['username'])) {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       echo '<h1 class="text-center">Insert Member</h1>';
       echo '<div class="container">';
+
+      // Extract details from the uploaded file
+      $avatarName = $_FILES['avatar']['name'];
+      $avatarSize = $_FILES['avatar']['size'];
+      $avatarType = $_FILES['avatar']['type'];
+      $avatarTemp = $_FILES['avatar']['tmp_name'];
+
+      // Allowed file type list
+      $allowedExtensions = array('jpeg', 'jpg', 'png', 'gif');
+
+      // Extract extension
+      // $explodedName    = explode('.', $avatarName);  // Use a variable to store the result
+      // $avatarExtension = strtolower(end($explodedName));       // Use the variable with end()
+      $avatarExtension = strtolower(pathinfo($avatarName, PATHINFO_EXTENSION));
 
       // get the variables from the form
       $user  = $_POST['username'];
@@ -164,13 +187,24 @@ if (isset($_SESSION['username'])) {
       if (empty($email)) {
         $formErrors[] = 'email can\'t be <strong>empty</strong>';
       }
+      if (!empty($avatarName) && !in_array($avatarExtension, $allowedExtensions)) {
+        $formErrors[] = 'This extension is <strong>not allowed</strong>';
+      }
+      if (empty($avatarName)) {
+        $formErrors[] = 'Avatar is <strong>required</strong>';
+      }
+      if ($avatarSize > 5242880) {
+        $formErrors[] = 'Avatar can\'t larger than <strong>5MB</strong>';
+      }
       foreach ($formErrors as $error) {
         echo '<div class="alert alert-danger">' . $error . '</div>';
       }
 
       // check if there is no error, proceed the update operation
       if (empty($formErrors)) {
+        $avatar = rand(0, 99999999999) . '_' . $avatarName;
 
+        move_uploaded_file($avatarTemp, "..\data\uploads\avatars\\$avatar");
         // check if user exists in database
         $check = checkCount('username', 'users', $user);
         if ($check) {
@@ -180,14 +214,15 @@ if (isset($_SESSION['username'])) {
         }
         else {
           // insert user info into the database
-          $stmt = $con->prepare("INSERT INTO users (username, password, email, fullname, regStatus, date)
-                                 VALUES (:zuser, :zpass, :zmail, :zname, 1, now())");
+          $stmt = $con->prepare("INSERT INTO users (username, password, email, fullname, regStatus, date, avatar)
+                                 VALUES (:zuser, :zpass, :zmail, :zname, 1, now(), :zavatar) ");
           $stmt->execute(
             array(
-              'zuser' => $user,
-              'zpass' => $hashPass,
-              'zmail' => $email,
-              'zname' => $name
+              'zuser'   => $user,
+              'zpass'   => $hashPass,
+              'zmail'   => $email,
+              'zname'   => $name,
+              'zavatar' => $avatar
             )
           ); //bind parameters and execute query
 
