@@ -24,15 +24,22 @@ body {
   color: #D20707;
 }
 
+.profile-form .astrisk {
+  right: 20px;
+  top: 10px;
+}
+
 h1 {
   font-size: 55px;
   margin: 40px 0;
   font-weight: bold;
   color: #666;
 }
-a{
+
+a {
   text-decoration: none;
 }
+
 /* end main rules */
 
 /* start bootstrap edits */
@@ -217,7 +224,7 @@ a{
   width: 130px;
 }
 
-.tags-items .tag{
+.tags-items .tag {
   display: inline-block;
   background-color: #e2e2e2;
   padding: 2px 10px;
