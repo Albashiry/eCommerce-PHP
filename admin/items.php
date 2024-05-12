@@ -592,7 +592,6 @@ if (isset($_SESSION['username'])) {
         redirectHome($theMsg, 'back');
 
       }
-
     }
     else {
       $theMsg = '<div class="alert alert-danger">Sorry, you can\'t browse this page directly!</div>';
