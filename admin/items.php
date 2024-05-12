@@ -82,7 +82,7 @@ if (isset($_SESSION['username'])) {
 
     <h1 class="text-center">Add New Item</h1>
     <div class="container">
-      <form class="form-horizontal" action="items.php?do=insert" method="post">
+      <form class="form-horizontal" action="items.php?do=insert" method="post" enctype="multipart/form-data">
         <!-- start name field -->
         <div class="mb-3 row">
           <label for="name" class="col-sm-3 col-form-label form-control-lg">Name</label>
@@ -178,7 +178,14 @@ if (isset($_SESSION['username'])) {
           </div>
         </div>
         <!-- end tags field -->
-
+        <!-- start image field -->
+        <div class="mb-3 row">
+          <label for="image" class="col-sm-3 col-form-label form-control-lg">Image</label>
+          <div class="col-sm-9 col-md-6 required">
+            <input type="file" name="image" id="image" class="form-control form-control-lg" />
+          </div>
+        </div>
+        <!-- end image field -->
         <!-- start submit field -->
         <div class="mb-3 row">
           <div class="offset-sm-3 col-sm-9">
@@ -197,6 +204,14 @@ if (isset($_SESSION['username'])) {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       echo '<h1 class="text-center">Insert Item</h1>';
       echo '<div class="container">';
+
+      // Extract details from the uploaded file
+      $imageName         = $_FILES['image']['name'];
+      $imageSize         = $_FILES['image']['size'];
+      $imageType         = $_FILES['image']['type'];
+      $imageTemp         = $_FILES['image']['tmp_name'];
+      $allowedExtensions = array('jpeg', 'jpg', 'png', 'gif');
+      $imageExtension    = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
 
       // get the variables from the form
       $name     = $_POST['name'];
@@ -231,16 +246,35 @@ if (isset($_SESSION['username'])) {
       if ($category == 0) {
         $formErrors[] = 'You must choose the <strong>category</strong>';
       }
+      if (!empty($imageName) && !in_array($imageExtension, $allowedExtensions)) {
+        $formErrors[] = 'This extension is <strong>not allowed</strong>';
+      }
+      if ($imageSize > 5242880) {
+        $formErrors[] = 'Avatar can\'t larger than <strong>5MB</strong>';
+      }
+      if (!empty($avatarName)) {
+        $image = rand(0, 99999999999) . '_' . $imageName;
+        move_uploaded_file($imageTemp, "data\uploads\items\\$image");
+      }
+      else {
+        $image = 'default-item.jpg';
+      }
       foreach ($formErrors as $error) {
         echo '<div class="alert alert-danger">' . $error . '</div>';
       }
 
       // check if there is no error, proceed the update operation
       if (empty($formErrors)) {
-
+        if (!empty($avatarName)) {
+          $image = rand(0, 99999999999) . '_' . $imageName;
+          move_uploaded_file($imageTemp, "data\uploads\items\\$image");
+        }
+        else {
+          $image = 'default-item.jpg';
+        }
         // insert user info into the database
-        $stmt = $con->prepare("INSERT INTO items (name, description, price, country_made, status, add_date, catID, memberID, tags )
-                              VALUES (:zname, :zdesc, :zprice, :zcountry, :zstatus, now(), :zcat, :zmember, :ztags)");
+        $stmt = $con->prepare("INSERT INTO items (name, description, price, country_made, status, add_date, catID, memberID, tags, image )
+                              VALUES (:zname, :zdesc, :zprice, :zcountry, :zstatus, now(), :zcat, :zmember, :ztags, :zimage)");
         $stmt->execute(
           array(
             'zname'    => $name,
@@ -250,7 +284,8 @@ if (isset($_SESSION['username'])) {
             'zstatus'  => $status,
             'zcat'     => $category,
             'zmember'  => $member,
-            'ztags'    => $tags
+            'ztags'    => $tags,
+            // 'zimage'   => $image
           )
         ); //bind parameters and execute query
 
@@ -288,7 +323,7 @@ if (isset($_SESSION['username'])) {
 
       <h1 class="text-center">Edit item</h1>
       <div class="container">
-        <form class="form-horizontal" action="items.php?do=update" method="post">
+        <form class="form-horizontal" action="items.php?do=update" method="post" enctype="multipart/form-data">
           <input type="hidden" name="itemID" value="<?= $itemID ?>">
           <!-- send itemID to select it in database when update -->
 
@@ -396,7 +431,14 @@ if (isset($_SESSION['username'])) {
             </div>
           </div>
           <!-- end tags field -->
-
+          <!-- start image field -->
+          <div class="mb-3 row">
+            <label for="image" class="col-sm-3 col-form-label form-control-lg">Image</label>
+            <div class="col-sm-9 col-md-6 required">
+              <input type="file" name="image" id="image" class="form-control form-control-lg" />
+            </div>
+          </div>
+          <!-- end image field -->
           <!-- start submit field -->
           <div class="mb-3 row">
             <div class="offset-sm-3 col-sm-9">
