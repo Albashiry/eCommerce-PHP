@@ -382,7 +382,7 @@ if (isset($_SESSION['username'])) {
         $formErrors[] = 'This extension is <strong>not allowed</strong>';
       }
       if ($avatarSize > 5242880) {
-        $formErrors[] = 'Avatar can\'t larger than <strong>5MB</strong>';
+        $formErrors[] = 'Avatar can\'t be larger than <strong>5MB</strong>';
       }
       foreach ($formErrors as $error) {
         echo '<div class="alert alert-danger">' . $error . '</div>';

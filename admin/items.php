@@ -285,7 +285,7 @@ if (isset($_SESSION['username'])) {
             'zcat'     => $category,
             'zmember'  => $member,
             'ztags'    => $tags,
-            // 'zimage'   => $image
+            'zimage'   => $image
           )
         ); //bind parameters and execute query
 
@@ -435,6 +435,7 @@ if (isset($_SESSION['username'])) {
           <div class="mb-3 row">
             <label for="image" class="col-sm-3 col-form-label form-control-lg">Image</label>
             <div class="col-sm-9 col-md-6 required">
+              <input type="hidden" name="oldimage" id="oldImage" value="<?= $item['image'] ?>">
               <input type="file" name="image" id="image" class="form-control form-control-lg" />
             </div>
           </div>
@@ -516,6 +517,17 @@ if (isset($_SESSION['username'])) {
     echo '<div class="container">';
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      // Extract details from the uploaded file
+      $imageName = $_FILES['image']['name'];
+      $imageSize = $_FILES['image']['size'];
+      $imageType = $_FILES['image']['type'];
+      $imageTemp = $_FILES['image']['tmp_name'];
+
+      // Allowed file type list
+      $allowedExtensions = array('jpeg', 'jpg', 'png', 'gif');
+
+      // Extract extension
+      $imageExtension = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
 
       // get the variables from the form
       $itemID   = $_POST['itemID'];
@@ -527,6 +539,7 @@ if (isset($_SESSION['username'])) {
       $category = $_POST['category'];
       $member   = $_POST['member'];
       $tags     = $_POST['tags'];
+      $image    = isset($_POST['oldImage']) ? $_POST['oldImage'] : '';
 
 
       // validate the form
@@ -552,25 +565,27 @@ if (isset($_SESSION['username'])) {
       if ($member == 0) {
         $formErrors[] = 'You must choose the <strong>member</strong>';
       }
+      if (!empty($imageName) && !in_array($imageExtension, $allowedExtensions)) {
+        $formErrors[] = 'This extension is <strong>not allowed</strong>';
+      }
+      if ($imageSize > 5242880) {
+        $formErrors[] = 'image can\'t be larger than <strong>5MB</strong>';
+      }
       foreach ($formErrors as $error) {
         echo '<div class="alert alert-danger">' . $error . '</div>';
       }
 
       // check if there is no error, proceed the update operation
       if (empty($formErrors)) {
-
+        if (!empty($imageName)) {
+          $image = rand(0, 99999999999) . '_' . $imageName;
+          move_uploaded_file($imageTemp, "..\data\uploads\items\\$image");
+        }
         // update the database with this info
         $stmt = $con->prepare("UPDATE items 
-                               SET name=?, 
-                                   description=?, 
-                                   price=?, 
-                                   country_made=?, 
-                                   status=?, 
-                                   catID=?, 
-                                   memberID=?,
-                                   tags=?
+                               SET name=?, description=?, price=?, country_made=?, status=?, catID=?, memberID=?, tags=?, image=?
                                WHERE itemID=?");
-        $stmt->execute(array($name, $desc, $price, $country, $status, $category, $member, $tags, $itemID));
+        $stmt->execute(array($name, $desc, $price, $country, $status, $category, $member, $tags, $image, $itemID));
 
         // echo success message
         $theMsg = '<div class="alert alert-success">' . $stmt->rowCount() . ' record updated</div>';

@@ -239,11 +239,16 @@ if (isset($_SESSION['user'])) {
             <div class='col-sm-6 col-md-3'>
               <div class='card item-box'>";
               if ($item['approve'] == 0) {
-                echo "<span class='approve-status'>Waiting Approval</span>";
+                echo "
+                <a href='newAd.php?do=edit&itemID=$item[itemID]'>
+                  <span class='approve-status'>Waiting Approval</span>
+                </a>";
               }
               $imgSource = empty($item['image']) ? "default-item.jpg" : $item['image'];
               echo "<span class='price-tag'>$item[price]$</span>
-                <img class='card-img-top img-thumbnail' src='data\uploads\items\\$imgSource' alt='User Avatar'>
+                
+                  <img class='card-img-top img-thumbnail' src='data\uploads\items\\$imgSource' alt='User Avatar'>
+              
                 <div class='card-body caption'>
                   <h3><a href='items.php?itemID=$item[itemID]'>$item[name]</a></h3>
                   <p>$item[description]</p>
