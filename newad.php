@@ -360,7 +360,7 @@ if (isset($_SESSION['user'])) {
                     <div class="mb-3 row">
                       <label for="image" class="col-sm-3 col-form-label form-control-lg">Image</label>
                       <div class="col-sm-9 col-md-8 required">
-                        <input type="hidden" name="oldimage" id="oldImage" value="<?= $item['image'] ?>">
+                        <input type="hidden" name="oldImage" id="oldImage" value="<?= $item['image'] ?>">
                         <input type="file" name="image" id="image" class="form-control form-control-lg" />
                       </div>
                     </div>
@@ -418,6 +418,7 @@ if (isset($_SESSION['user'])) {
     }
   }
   elseif ($do == 'update') {
+    echo '<div class="container">';
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       // Extract details from the uploaded file
       $imageName = $_FILES['image']['name'];
@@ -440,8 +441,7 @@ if (isset($_SESSION['user'])) {
       $status   = $_POST['status'];
       $category = $_POST['category'];
       $tags     = $_POST['tags'];
-      $image    = isset($_POST['oldImage']) ? $_POST['oldImage'] : '';
-
+      $image    = isset($_POST['oldImage']) ? $_POST['oldImage'] : 'salam';
 
       // validate the form
       $formErrors = array();
@@ -495,8 +495,8 @@ if (isset($_SESSION['user'])) {
     else {
       $theMsg = '<div class="alert alert-danger">Sorry, you can\'t browse this page directly!</div>';
       redirectHome($theMsg);
-
     }
+    echo '</div>';
   }
   else {
     echo "<div class='container'><div class='alert alert-danger'>nothing to show here</div></div>";
