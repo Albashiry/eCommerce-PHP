@@ -356,7 +356,7 @@ if (isset($_SESSION['username'])) {
       $user   = $_POST['username'];
       $email  = $_POST['email'];
       $name   = $_POST['fullname'];
-      $avatar   = $_POST['oldAvatar'];
+      $avatar = $_POST['oldAvatar'];
 
       // password trick
       $pass = empty($_POST['newPassword']) ? $_POST['oldPassword'] : sha1($_POST['newPassword']);

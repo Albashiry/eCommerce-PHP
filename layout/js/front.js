@@ -49,4 +49,16 @@ $(function () {
     $($(this).data('class')).text($(this).val());
   });
 
+  // make live image in newAd.php
+  $('#image').change(function (event) {
+    let reader = new FileReader();
+
+    reader.onload = function (event) {
+      $('.live-img').attr('src', event.target.result);
+    };
+
+    reader.readAsDataURL(event.target.files[0]);
+    // console.log(event.target.files);
+  });
+
 });

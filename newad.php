@@ -9,7 +9,14 @@ if (isset($_SESSION['user'])) {
 
   if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $formErrors = array();
+    // Extract details from the uploaded file
+    $imageName         = $_FILES['image']['name'];
+    $imageSize         = $_FILES['image']['size'];
+    $imageType         = $_FILES['image']['type'];
+    $imageTemp         = $_FILES['image']['tmp_name'];
+    $allowedExtensions = array('jpeg', 'jpg', 'png', 'gif');
+    $imageExtension    = strtolower(pathinfo($imageName, PATHINFO_EXTENSION));
+
 
     $name     = strip_tags($_POST['name']);
     $desc     = strip_tags($_POST['description']);
@@ -19,6 +26,7 @@ if (isset($_SESSION['user'])) {
     $category = filter_var($_POST['category'], FILTER_SANITIZE_NUMBER_INT);
     $tags     = strip_tags($_POST['tags']);
 
+    $formErrors = array();
     if (strlen($name) < 4) {
       $formErrors[] = "Item title must be at least 4 characters";
     }
@@ -37,13 +45,25 @@ if (isset($_SESSION['user'])) {
     if (empty($category)) {
       $formErrors[] = "Item category must be not empty";
     }
+    if (!empty($imageName) && !in_array($imageExtension, $allowedExtensions)) {
+      $formErrors[] = 'This extension is <strong>not allowed</strong>';
+    }
+    if ($imageSize > 5242880) {
+      $formErrors[] = 'Avatar can\'t larger than <strong>5MB</strong>';
+    }
 
     // check if there is no error, proceed the update operation
     if (empty($formErrors)) {
-
+      if (!empty($avatarName)) {
+        $image = rand(0, 99999999999) . '_' . $imageName;
+        move_uploaded_file($imageTemp, "data\uploads\items\\$image");
+      }
+      else {
+        $image = 'default-item.jpg';
+      }
       // insert user info into the database
-      $stmt = $con->prepare("INSERT INTO items (name, description, price, country_made, status, add_date, catID, memberID, tags)
-                              VALUES (:zname, :zdesc, :zprice, :zcountry, :zstatus, now(), :zcat, :zmember, :ztags)");
+      $stmt = $con->prepare("INSERT INTO items (name, description, price, country_made, status, add_date, catID, memberID, tags, image)
+                              VALUES (:zname, :zdesc, :zprice, :zcountry, :zstatus, now(), :zcat, :zmember, :ztags, :zimage)");
       $stmt->execute(
         array(
           'zname'    => $name,
@@ -53,7 +73,8 @@ if (isset($_SESSION['user'])) {
           'zstatus'  => $status,
           'zcat'     => $category,
           'zmember'  => $_SESSION['uid'],
-          'ztags'    => $tags
+          'ztags'    => $tags,
+          'zimage'   => $image
         )
       ); //bind parameters and execute query
 
@@ -78,7 +99,8 @@ if (isset($_SESSION['user'])) {
           <div class="row">
             <div class="col-md-8">
 
-              <form class="form-horizontal main-form" action="<?= $_SERVER["PHP_SELF"]; ?>" method="post">
+              <form class="form-horizontal main-form" action="<?= $_SERVER["PHP_SELF"]; ?>" method="post"
+                enctype="multipart/form-data">
                 <!-- start name field -->
                 <div class="mb-3 row">
                   <label for="name" class="col-sm-3 col-form-label form-control-lg">Name</label>
@@ -160,6 +182,14 @@ if (isset($_SESSION['user'])) {
                   </div>
                 </div>
                 <!-- end tags field -->
+                <!-- start image field -->
+                <div class="mb-3 row">
+                  <label for="image" class="col-sm-3 col-form-label form-control-lg">Image</label>
+                  <div class="col-sm-9 col-md-8 required">
+                    <input type="file" name="image" id="image" class="form-control form-control-lg" />
+                  </div>
+                </div>
+                <!-- end image field -->
 
                 <!-- start submit field -->
                 <div class="mb-3 row">
@@ -177,7 +207,8 @@ if (isset($_SESSION['user'])) {
                 <span class='price-tag'>
                   <span class="live-price">0</span>$
                 </span>
-                <img class='card-img-top img-thumbnail' src='avatar.png' alt='User Avatar'>
+                <img class='card-img-top img-thumbnail live-img' src='data\uploads\items\default-item.jpg'
+                  alt='User Avatar'>
                 <div class='card-body'>
                   <h3 class="live-title">[name]</h3>
                   <p class="live-desc">[description]</p>
