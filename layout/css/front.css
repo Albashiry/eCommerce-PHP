@@ -150,7 +150,7 @@ a {
 
 .item-box .delete-item {
   position: absolute;
-  top:0;
+  top: 0;
   right: 0;
   padding: 1px 5px;
   color: red;
@@ -310,6 +310,27 @@ a {
   position: absolute;
   left: -35px;
   top: 5px;
+}
+
+.item-comment {
+  padding-right: 10px;
+}
+
+.item-comment span {
+  background-color: #EFEF00;
+  position: relative;
+}
+
+.item-comment span::before {
+  content: "";
+  position: absolute;
+  left: -24px;
+  top: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-color: transparent #EFEF00 transparent transparent;
+  border-width: 12px;
 }
 
 /* end show item page */

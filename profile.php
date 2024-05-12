@@ -204,7 +204,7 @@ if (isset($_SESSION['user'])) {
 
                   // echo success message
                   echo '<div class="alert alert-success">' . $stmt->rowCount() . ' record updated</div>';
-                  header("Refresh: 1; url=profile.php");
+                  header("Refresh: 0; url=profile.php");
                 }
               }
             }
@@ -226,23 +226,23 @@ if (isset($_SESSION['user'])) {
         </div>
         <div class="card-body">
           <?php
-          if ($do == 'show') {
-            $items = getAllFrom('*', 'items', "WHERE memberID = {$info['userID']}", "", "itemID");
-            if (!empty($items)) {
-              echo "<div class='row'>";
-              foreach ($items as $item) {
-                echo "
+
+          $items = getAllFrom('*', 'items', "WHERE memberID = {$info['userID']}", "", "itemID");
+          if (!empty($items)) {
+            echo "<div class='row'>";
+            foreach ($items as $item) {
+              echo "
                 <div class='col-sm-6 col-md-3'>
                   <div class='card item-box'>
                   <a href='profile.php?do=delete&itemID=$item[itemID]' class='delete-item confirm'><i class='fa fa-close'></i></a>";
-                if ($item['approve'] == 0) {
-                  echo "
+              if ($item['approve'] == 0) {
+                echo "
                     <a href='newAd.php?do=edit&itemID=$item[itemID]'>
                       <span class='approve-status'>Waiting Approval</span>
                     </a>";
-                }
-                $imgSource = empty($item['image']) ? "default-item.jpg" : $item['image'];
-                echo "<span class='price-tag'>$item[price]$</span>
+              }
+              $imgSource = empty($item['image']) ? "default-item.jpg" : $item['image'];
+              echo "<span class='price-tag'>$item[price]$</span>
                     
                       <img class='card-img-top img-thumbnail' src='data\uploads\items\\$imgSource' alt='User Avatar'>
                   
@@ -253,14 +253,14 @@ if (isset($_SESSION['user'])) {
                     </div>
                   </div>
                 </div>";
-              }
-              echo "</div>";
             }
-            else {
-              echo "Sorry, There is no Ads to show, Create <a href='newad.php'>new Ad</a>";
-            }
+            echo "</div>";
           }
-          elseif ($do == 'delete') {
+          else {
+            echo "Sorry, There is no Ads to show, Create <a href='newad.php'>new Ad</a>";
+          }
+
+          if ($do == 'delete') {
             // check if Get Request itemID is numeric and get the integer value of it
             $itemID = isset($_GET['itemID']) && is_numeric($_GET['itemID']) ? intval($_GET['itemID']) : 0;
 
@@ -281,10 +281,6 @@ if (isset($_SESSION['user'])) {
               redirectHome($theMsg);
             }
           }
-          else {
-            header("Location: profile.php");
-            exit();
-          }
           ?>
         </div>
       </div>
@@ -300,11 +296,21 @@ if (isset($_SESSION['user'])) {
         </div>
         <div class="card-body">
           <?php
-          $comments = getAllFrom('comment', 'comments', "WHERE userID = {$info['userID']}", "", "comID");
+          // $comments = getAllFrom('*', 'comments', "WHERE userID = {$info['userID']}", "", "comID");
+        
+          // if we want to show the item which the comment belongs, we need to make inner join to get item name from itemID
+          $comments = $con->prepare("SELECT comments.*, items.name AS itemName
+                        FROM comments
+                        INNER JOIN items ON comments.itemID = items.itemID
+                        WHERE comments.userID = ?");
+          $comments->execute(array($info['userID']));
 
           if (!empty($comments)) {
             foreach ($comments as $comment) {
-              echo "<p>$comment[comment]</p>";
+              echo "<p class='row item-comment'>
+                <a class='col-md-2' href='items.php?itemID=$comment[itemID]'>$comment[itemName]</a>
+                <span class='col-md-10'>$comment[comment]</span>
+              </p>";
             }
           }
           else {

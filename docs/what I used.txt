@@ -1,11 +1,29 @@
-What I use:
+
+Project structure
+- admin => a folder includes admin files it is the same as user structure but differ in permissions
+- data => a folder includes logs data and uploads files
+- docs => this is the documentation folder, contain database
+
+- includes => {functions, lanuages, libraries, templates}
+--- functions => include functions files
+--- languages => include languages files
+--- libraries => include libraries files
+--- templates => include templates files
+
+- layout => {css, images, js}
+--- 
+--- 
+--- 
+
+
+Application techniques, tools & libraries
 - HTML
-- CSS => SASS
+- CSS
 - Bootstrap
 - jQuery
 - PHP
-- PDO
 - MySQL
+- PDO
 - SelectBoxIt blugin
 - jQueryUI
 - jQuery tags blugin
@@ -14,7 +32,7 @@ Editors:
 - AptanaStusio
 - NetBeans
 - PHP Storm
-- VS code
+- VS code ✅
 
 
 Simple Analysis:
@@ -22,14 +40,10 @@ Simple Analysis:
 
 - Design {NiceScroll, Font Awesome}
 
-- application features & pages
---- settings
---- dashbord
---- statistics
---- log
---- users
---- comments
-
-- application techniques, tools & libraries
-
-
+Application features & pages
+- settings
+- dashboard
+- statistics
+- log
+- users
+- comments

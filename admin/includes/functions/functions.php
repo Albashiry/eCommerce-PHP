@@ -1,11 +1,11 @@
 <?php
 /* Get All function v3.0
- * function to get all records from any database table
+ * function to get all records from any database table 
+ * returns array of results
  * 
- *  returns array of results
- * 
- * override getCat()
- * override getItems()
+ * Examples of using the function:
+ * $allItems = getAllFrom('*', 'items', 'WHERE approve = 1', '', 'itemID', 'ASC');
+ * $approveditems = getAllFrom('*', 'items', "WHERE memberID = {$info['userID']}", 'AND approve = 1');
  * */
 function getAllFrom($field, $table, $where = NULL, $and = NULL, $orderField = 'NULL', $ordering = 'DESC') {
   global $con;
@@ -15,6 +15,7 @@ function getAllFrom($field, $table, $where = NULL, $and = NULL, $orderField = 'N
   $all = $getAll->fetchAll();
   return $all;
 }
+
 
 /* title function v1.0
  * title function that echo the page title in case the page has the variable $pageTitle
@@ -30,7 +31,6 @@ function getTitle() {
     return 'Default';
   }
 }
-
 
 
 /* Home Redirect function v1.0
@@ -72,7 +72,6 @@ function redirectHome($theMsg, $url = null, $seconds = 3) {
 }
 
 
-
 /* check items function v1.0
  * function to check item in database [function accepts parameters]
  *   $select => the item to select [example: user, item, category]
@@ -89,7 +88,6 @@ function redirectHome($theMsg, $url = null, $seconds = 3) {
 // }
 
 
-
 /* count number of items function v1.0
  * function to count number of items rows
  * $item => the item to count
@@ -103,7 +101,13 @@ function redirectHome($theMsg, $url = null, $seconds = 3) {
 // }
 
 
-/* checkItem($column, $table, $value) + countItems($item, $table) */
+/* checkItem($column, $table, $value) + countItems($item, $table) 
+ * function to check item in database and return count number of items
+ * [function accepts parameters]
+ *   $column => the item to select [example: user, item, category]
+ *   $table => the table to select from [example: users, items, categories]
+ *   $value => the value of select [example: Betho, box, electronics]
+ * */
 function checkCount($column, $table, $value = "") {
   global $con;
 
@@ -123,7 +127,7 @@ function checkCount($column, $table, $value = "") {
 
 /* Get latest records function v2.0
  * function to get latest items from database [users | items | commants]
- *   $column => field to select
+ *   $columns => field to select
  *   $table => the table to choose from
  *   $order => the DESC ordering field
  *   $limit => limit records to get
@@ -135,7 +139,7 @@ function checkCount($column, $table, $value = "") {
 function getLatest($columns, $table, $order, $limit = 5, $admin = null) {
   global $con;
   $query = "SELECT $columns FROM $table ORDER BY $order DESC LIMIT $limit";
-  
+
   if ($admin !== null) {
     $query = "SELECT $columns FROM $table WHERE groupID != $admin ORDER BY $order DESC LIMIT $limit";
   }

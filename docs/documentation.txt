@@ -1,11 +1,81 @@
+# default login admin => {{username: salam, password: salam}, {username: admin, password: admin}}
+# default login user => {{username: Daru, password: Daru}}
+
+==========================================================
+======================== Variables========================
+==========================================================
 $noNavbar => if this variable isset then the page does not include navbar (the condition is in init.php)
 
-==========================
-=== Functions Document ===
-==========================
+$pageTitle => this variable specify the page title that is set by the function setTitle()
 
-getAllFrom($field, $table, $where = NULL, $and = NULL, $orderField = 'NULL', $ordering = 'DESC')
+// Routes
+$tpl = 'includes/templates/'; // templates directory
+$lang = 'includes/languages/'; //language directory
+$func = 'includes/functions/'; //functions directory
+$css = 'layout/css/'; // css directory
+$js = 'layout/js/'; // js directory
 
-function to get all records from any database table and returns array of results
-$allItems = getAllFrom('*', 'items', 'WHERE approve = 1', '', 'itemID', 'ASC');
-$approveditems = getAllFrom('*', 'items', "WHERE memberID = {$info['userID']}", 'AND approve = 1');
+
+page.php => page templates
+
+==========================================================
+=================== Functions Document ===================
+==========================================================
+/* Get All function v3.0
+ * function to get all records from any database table 
+ * returns array of results
+ * 
+ * Examples of using the function:
+ * $allItems = getAllFrom('*', 'items', 'WHERE approve = 1', '', 'itemID', 'ASC');
+ * $approveditems = getAllFrom('*', 'items', "WHERE memberID = {$info['userID']}", 'AND approve = 1');
+ * */
+function getAllFrom($field, $table, $where = NULL, $and = NULL, $orderField = 'NULL', $ordering = 'DESC')
+
+
+/* title function v1.0
+ * title function that echo the page title in case the page has the variable $pageTitle
+ * and echo default title for other pages
+ * */
+function getTitle(
+
+
+/* Home Redirect function v2.0
+ * This function accept parameters:
+ *   $theMsg => echo the message [error | success | warning]
+ *   $url => the link we redirect to it
+ *   $seconds => seconds before redirecting
+ * */
+function redirectHome($theMsg, $url = null, $seconds = 3)
+
+
+/* checkItem($column, $table, $value) + countItems($item, $table) 
+ * function to check item in database and return count number of items
+ * [function accepts parameters]
+ *   $column => the item to select [example: user, item, category]
+ *   $table => the table to select from [example: users, items, categories]
+ *   $value => the value of select [example: Betho, box, electronics]
+ * */
+function checkCount($column, $table, $value = "")
+
+
+/* Get latest records function v2.0
+ * function to get latest items from database [users | items | commants]
+ *   $columns => field to select
+ *   $table => the table to choose from
+ *   $order => the DESC ordering field
+ *   $limit => limit records to get
+ * 
+ *   $admin => a value to exclude admin from showing in dashboard
+ * 
+ *  returns array of results
+ * */
+function getLatest($columns, $table, $order, $limit = 5, $admin = null)
+
+
+/* checkUserStatus function v1.0
+ * function to check User Status in database if is not activated
+ * check the regStatus of the user
+ * 
+ *  returns array of results
+ * */
+function checkUserStatus($user)
